@@ -1,0 +1,27 @@
+# Docker - MariaDB + PhpMyAdmin
+version: '3.1'
+services:
+  mariadb:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: anime-tracker
+    expose:
+      - "3306"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./docker/mariadb:/var/lib/mysql
+  pma:
+    image: phpmyadmin/phpmyadmin:latest
+    environment:
+      PMA_HOST: mariadb
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root
+    expose:
+      - 8888
+    ports:
+      - 8888:80
+    depends_on:
+      - mariadb

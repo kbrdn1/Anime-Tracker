@@ -1,0 +1,17 @@
+{
+  "name": "anime-tracker-back",
+  "scripts": {
+    "dev": "bun run --hot src/index.ts",
+    "build": "bun build src/index.ts",
+    "format": "prettier --write \"/src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\""
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "hono": "^3.12.7",
+    "prisma": "^5.8.1"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.0.0",
+    "prettier": "^3.2.4"
+  }
+}
