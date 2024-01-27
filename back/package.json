@@ -3,15 +3,23 @@
   "scripts": {
     "dev": "bun run --hot src/index.ts",
     "build": "bun build src/index.ts",
+    "db:migrate": "prisma migrate dev --name init",
+    "db:seed": "prisma db seed",
     "format": "prettier --write \"/src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\""
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "dependencies": {
+    "@prisma/client": "5.8.1",
     "bcrypt": "^5.1.1",
     "hono": "^3.12.7",
     "prisma": "^5.8.1"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.0",
     "@types/bun": "^1.0.0",
-    "prettier": "^3.2.4"
+    "prettier": "^3.2.4",
+    "ts-node": "^10.9.2"
   }
 }
