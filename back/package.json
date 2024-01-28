@@ -5,7 +5,7 @@
     "build": "bun build src/index.ts",
     "db:migrate": "prisma migrate dev --name init",
     "db:seed": "prisma db seed",
-    "format": "prettier --write \"/src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\""
+    "format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\""
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
