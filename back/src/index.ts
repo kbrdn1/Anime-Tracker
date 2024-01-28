@@ -1,9 +1,12 @@
 import { Hono } from 'hono'
+import routes from '@/routes'
 
-const app = new Hono()
+const api = new Hono().basePath('/api')
 
-app.get('/', (c) => {
+api.get('/', c => {
   return c.text('Hello form Anime Tracker API !')
 })
 
-export default app
+api.route('', routes.users)
+
+export default api
