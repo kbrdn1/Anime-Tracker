@@ -10,10 +10,76 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model Users {
   id      Int      @id @default(autoincrement())
   firstName String
   lastName  String
   email   String   @unique
   password String
 }
+
+model Notifications {
+  id     Int      @id @default(autoincrement())
+  title String
+  data  Json
+  is_read Boolean
+  created_at DateTime @default(now())
+  user_id Int
+}
+
+model Favorites {
+  id     Int      @id @default(autoincrement())
+  animes_ids Int
+}
+
+model Watchlist {
+  id     Int      @id @default(autoincrement())
+  animes_ids Int
+}
+
+model Top5 {
+  id     Int      @id @default(autoincrement())
+  animes_ids Int
+}
+
+model Calendars {
+  id     Int      @id @default(autoincrement())
+  data String
+  created_at DateTime @default(now())
+  animes_ids Int
+}
+
+model StreamingPlatforms {
+  id     Int      @id @default(autoincrement())
+  name String
+  api_url String
+  logo String
+}
+
+model Claims {
+  id     Int      @id @default(autoincrement())
+  user_id Int
+  reward_id Int
+  created_at DateTime @default(now())
+}
+
+model Recommandations {
+  id     Int      @id @default(autoincrement())
+  animes_ids Int
+}
+
+model Types {
+  id     Int      @id @default(autoincrement())
+  name String
+  description String
+}
+
+model Rewards {
+  id     Int      @id @default(autoincrement())
+  name String
+  description String
+  badge String
+  condition Int
+  type_id Int
+}
+
