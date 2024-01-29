@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "description": "",
   "scripts": {
-    "format:app": "prettier --write \"app/src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "format:back": "prettier --write \"back/src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\""
+    "format:app": "prettier --write \"./app/src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "format:back": "prettier --write \"./back/src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\""
   },
   "author": "kbrdn1, Thibaut-Moncourtois",
   "license": "ISC",
