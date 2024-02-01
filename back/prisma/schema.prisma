@@ -113,8 +113,8 @@ model Calendars {
   created_at          DateTime           @default(now())
   users               Users              @relation(fields: [userId], references: [id])
   userId              Int                @unique
-  streamingPlatforms  StreamingPlatforms @relation(fields: [streamingPlatformid], references: [id])
-  streamingPlatformid Int                @unique
+  streamingPlatforms  StreamingPlatforms @relation(fields: [streamingPlatformId], references: [id])
+  streamingPlatformId Int                @unique
 }
 
 model StreamingPlatforms {
@@ -146,7 +146,6 @@ model Rewards {
   typeId      Int      @unique
 }
 
-
 model Types {
   id          Int       @id @default(autoincrement())
   name        String
@@ -154,72 +153,71 @@ model Types {
   rewards     Rewards[]
 }
 
-model authors {
-  id     Int      @id @default(autoincrement())
+model Authors {
+  id       Int    @id @default(autoincrement())
   firtName String
   lastName String
-  bio String
+  bio      String
 }
 
 model Animes {
-  id     Int      @id @default(autoincrement())
-  title String
-  japanese_title String
-  description String
-  jacket_img String
-  banner_img String
-  puplished_at DateTime @default(now())
-  crunchyroll_ref String
-  adn_ref String
+  id                Int      @id @default(autoincrement())
+  title             String
+  japanese_title    String
+  description       String
+  jacket_img        String
+  banner_img        String
+  puplished_at      DateTime @default(now())
+  crunchyroll_ref   String
+  adn_ref           String
   my_anime_list_ref String
-// status_id Int
-// author_id Int
+  // status_id Int
+  // author_id Int
 }
 
 model Seasons {
-  id     Int      @id @default(autoincrement())
-  title String
-  description String
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String
   puplished_at DateTime @default(now())
   //anime_id Int
 }
 
 model Episodes {
-  id     Int      @id @default(autoincrement())
-  title String
+  id          Int      @id @default(autoincrement())
+  title       String
   description String
-  duration Int
-  puplish_at DateTime @default(now())
+  duration    Int
+  puplish_at  DateTime @default(now())
   //season_id Int
 }
 
 model Themes {
-  id     Int      @id @default(autoincrement())
-  name String
+  id          Int    @id @default(autoincrement())
+  name        String
   description String
 }
 
-model Anime_types {
-  id     Int      @id @default(autoincrement())
-  name String
+model Anime_Types {
+  id          Int    @id @default(autoincrement())
+  name        String
   description String
 }
 
 model Status {
-  id     Int      @id @default(autoincrement())
-  name String
+  id          Int    @id @default(autoincrement())
+  name        String
   description String
 }
 
 model Gender {
-  id     Int      @id @default(autoincrement())
-  name String
+  id          Int    @id @default(autoincrement())
+  name        String
   description String
 }
 
 model Studios {
-  id     Int      @id @default(autoincrement())
-  name String
+  id          Int    @id @default(autoincrement())
+  name        String
   description String
 }
-
