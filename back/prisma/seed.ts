@@ -6,17 +6,17 @@ const prisma = new PrismaClient()
 
 const users = async () => {
   for (let i = 0; i < 10; i++) {
-    await prisma.user.upsert({
+    await prisma.users.upsert({
       where: {
         id: i + 1
       },
       update: {},
       create: {
-        id: i + 1,
-        firstName: faker.person.firstName(),
-        lastName: faker.person.lastName(),
+        username: faker.internet.userName(),
         email: faker.internet.email(),
-        password: faker.internet.password()
+        password: faker.internet.password(),
+        avatar: faker.image.avatar(),
+        bio: faker.lorem.sentence(),
       }
     })
   }
