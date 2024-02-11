@@ -18,4 +18,16 @@ class DefaultController {
       return c.json(this.service.getAll())
     })
   }
+
+  public static async show() {
+    this.routes.get('/:id', async c => {
+      const { id } = c.req.param()
+
+      const item = await this.service.get(Number(id))
+
+      if (!item) return c.text('Item not found', 404)
+
+      return c.json(item)
+    })
+  }
 }
