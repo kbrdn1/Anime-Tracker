@@ -38,4 +38,15 @@ class DefaultController {
       return c.json(item, 201)
     })
   }
+
+  public static async update() {
+    this.routes.put('/:id', async c => {
+      const { id } = c.req.param()
+      const item = await this.service.update(Number(id), c.req.parseBody())
+
+      if (!item) return c.text('Item not found', 404)
+
+      return c.json(item)
+    })
+  }
 }
