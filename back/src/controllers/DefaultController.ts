@@ -30,4 +30,12 @@ class DefaultController {
       return c.json(item)
     })
   }
+
+  public static async create() {
+    this.routes.post('/', async c => {
+      const item = await this.service.create(c.req.parseBody())
+
+      return c.json(item, 201)
+    })
+  }
 }
