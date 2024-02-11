@@ -250,7 +250,7 @@ model AnimeTypesOnAnimes {
   animeId     Int
   animeType   AnimeTypes @relation(fields: [animeTypeId], references: [id])
   animeTypeId Int
-  assignedAt  DateTime  @default(now())
+  assignedAt  DateTime   @default(now())
 
   @@id([animeId, animeTypeId])
 }
@@ -270,10 +270,10 @@ model Gender {
 }
 
 model GenderOnAnimes {
-  anime    Animes @relation(fields: [animeId], references: [id])
-  animeId  Int
-  gender   Gender @relation(fields: [genderId], references: [id])
-  genderId Int
+  anime      Animes   @relation(fields: [animeId], references: [id])
+  animeId    Int
+  gender     Gender   @relation(fields: [genderId], references: [id])
+  genderId   Int
   assignedAt DateTime @default(now())
 
   @@id([animeId, genderId])
