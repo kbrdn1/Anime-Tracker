@@ -2,10 +2,10 @@ import { Hono } from "hono";
 
 class DefaultController {
 
-  private static basePath: string = '/'
-  private static routes = new Hono().basePath(DefaultController.basePath)
-  private static service: any
-  private static isProtected: boolean = false
+  protected static basePath: string = '/'
+  protected static routes = new Hono().basePath(DefaultController.basePath)
+  protected static service: any
+  protected static isProtected: boolean = false
 
   constructor(basePath: string, tableName: string, isProtected: boolean = false) {
     DefaultController.basePath = basePath
@@ -31,7 +31,7 @@ class DefaultController {
     })
   }
 
-  public static async create() {
+  public static async store() {
     this.routes.post('/', async c => {
       const item = await this.service.create(c.req.parseBody())
 
