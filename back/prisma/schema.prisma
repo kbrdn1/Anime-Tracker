@@ -52,7 +52,6 @@ model FavoritesOnUsers {
   favorite   Favorites @relation(fields: [favoriteId], references: [id])
   favoriteId Int
   assignedAt DateTime  @default(now())
-  assignedBy String
 
   @@id([userId, favoriteId])
 }
@@ -69,7 +68,6 @@ model WatchlistOnUsers {
   watchlist   Watchlist @relation(fields: [watchlistId], references: [id])
   watchlistId Int
   assignedAt  DateTime  @default(now())
-  assignedBy  String
 
   @@id([userId, watchlistId])
 }
@@ -86,7 +84,6 @@ model Top5OnUsers {
   top5       Top5     @relation(fields: [top5Id], references: [id])
   top5Id     Int
   assignedAt DateTime @default(now())
-  assignedBy String
 
   @@id([userId, top5Id])
 }
@@ -253,6 +250,7 @@ model AnimeTypesOnAnimes {
   animeId     Int
   animeType   AnimeTypes @relation(fields: [animeTypeId], references: [id])
   animeTypeId Int
+  assignedAt  DateTime  @default(now())
 
   @@id([animeId, animeTypeId])
 }
@@ -276,6 +274,7 @@ model GenderOnAnimes {
   animeId  Int
   gender   Gender @relation(fields: [genderId], references: [id])
   genderId Int
+  assignedAt DateTime @default(now())
 
   @@id([animeId, genderId])
 }
