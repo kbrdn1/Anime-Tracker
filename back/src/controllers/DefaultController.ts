@@ -42,7 +42,6 @@ class DefaultController {
   public static async index() {
     this.routes.get('/', async c => {
       // TODO: Add AdminGuard
-      // TODO: Add pagination
       return c.json(this.service.getAll())
     })
   }
