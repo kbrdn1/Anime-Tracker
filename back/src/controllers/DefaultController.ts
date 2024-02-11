@@ -1,16 +1,26 @@
-import { Hono } from "hono";
+import { Hono } from 'hono'
+import adminGuard from '@/middlewares/Admin.guard'
 
 class DefaultController {
-
   protected static basePath: string = '/'
   protected static routes = new Hono().basePath(DefaultController.basePath)
   protected static service: any
+  protected static guard: any
   protected static isProtected: boolean = false
+  protected static adminGuard = adminGuard
 
-  constructor(basePath: string, tableName: string, isProtected: boolean = false) {
+  constructor(
+    basePath: string,
+    tableName: string,
+    isProtected: boolean = false,
+    guard: any = null
+  ) {
     DefaultController.basePath = basePath
     DefaultController.service = import(`@/services/${tableName}.service`)
     DefaultController.isProtected = isProtected
+    DefaultController.guard = guard
+      ? import(`@/middlewares/${tableName}.guard`)
+      : null
   }
 
   public static async index() {
@@ -43,7 +53,7 @@ class DefaultController {
   }
 
   public static async update() {
-    this.routes.put('/:id', async c => {
+    this.routes.patch('/:id', async c => {
       // TODO: Add AdminGuard
       const { id } = c.req.param()
       const item = await this.service.update(Number(id), c.req.parseBody())
