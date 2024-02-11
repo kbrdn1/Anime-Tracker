@@ -49,4 +49,15 @@ class DefaultController {
       return c.json(item)
     })
   }
+
+  public static async delete() {
+    this.routes.delete('/:id', async c => {
+      const { id } = c.req.param()
+      const item = await this.service.delete(Number(id))
+
+      if (!item) return c.text('Item not found', 404)
+
+      return c.json(item)
+    })
+  }
 }
