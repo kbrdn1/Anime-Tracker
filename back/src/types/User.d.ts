@@ -6,6 +6,8 @@ type User = {
   bio?: string
   avatar?: string
   role?: string
+  createdAt?: string
+  updatedAt?: string
 }
 
 export default User
