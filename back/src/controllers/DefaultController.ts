@@ -12,4 +12,10 @@ class DefaultController {
     DefaultController.service = import(`@/services/${tableName}.service`)
     DefaultController.isProtected = isProtected
   }
+
+  public static async index() {
+    this.routes.get('/', async c => {
+      return c.json(this.service.getAll())
+    })
+  }
 }
