@@ -17,9 +17,30 @@ const users = async () => {
         password: faker.internet.password(),
         avatar: faker.image.avatar(),
         bio: faker.lorem.sentence(),
+        role: 'user',
+        created_at: new Date(),
+        updated_at: new Date(),
       }
     })
   }
+
+  //admin
+  await prisma.users.upsert({
+    where: {
+      id: 11
+    },
+    update: {},
+    create: {
+      username: 'admin',
+      email: 'admin@anime-tacker.fr',
+      password: faker.internet.password(),
+      avatar: faker.image.avatar(),
+      bio: faker.lorem.sentence(),
+      role: 'admin',
+      created_at: new Date(),
+      updated_at: new Date(),
+    }
+  })
   console.info('Users seeded')
 }
 
