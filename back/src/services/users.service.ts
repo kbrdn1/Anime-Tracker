@@ -11,6 +11,10 @@ class UsersService {
   public async get(id: number) {
     return await this.prisma.users.findUnique({ where: { id } })
   }
+
+  public async create(data: any) {
+    return await this.prisma.users.create({ data })
+  }
 }
 
 export default new UsersService()
