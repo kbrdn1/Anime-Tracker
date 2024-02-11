@@ -15,6 +15,10 @@ class UsersService {
   public async create(data: any) {
     return await this.prisma.users.create({ data })
   }
+
+  public async update(id: number, data: any) {
+    return await this.prisma.users.update({ where: { id }, data })
+  }
 }
 
 export default new UsersService()
