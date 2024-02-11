@@ -19,7 +19,7 @@ class DefaultController {
     DefaultController.service = import(`@/services/${tableName}.service`)
     DefaultController.isProtected = isProtected
     DefaultController.guard = guard
-      ? import(`@/middlewares/${tableName}.guard`)
+      ? import(`@/middlewares/${guard}.guard`)
       : null
   }
 
