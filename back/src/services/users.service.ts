@@ -7,4 +7,10 @@ class UsersService {
     // TODO: Add pagination
     return await this.prisma.users.findMany()
   }
+
+  public async get(id: number) {
+    return await this.prisma.users.findUnique({ where: { id } })
+  }
 }
+
+export default new UsersService()
