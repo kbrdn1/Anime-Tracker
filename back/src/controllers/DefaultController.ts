@@ -15,12 +15,15 @@ class DefaultController {
 
   public static async index() {
     this.routes.get('/', async c => {
+      // TODO: Add AdminGuard
+      // TODO: Add pagination
       return c.json(this.service.getAll())
     })
   }
 
   public static async show() {
     this.routes.get('/:id', async c => {
+      // TODO: Add AdminGuard
       const { id } = c.req.param()
 
       const item = await this.service.get(Number(id))
@@ -33,14 +36,15 @@ class DefaultController {
 
   public static async store() {
     this.routes.post('/', async c => {
+      // TODO: Add AdminGuard
       const item = await this.service.create(c.req.parseBody())
-
       return c.json(item, 201)
     })
   }
 
   public static async update() {
     this.routes.put('/:id', async c => {
+      // TODO: Add AdminGuard
       const { id } = c.req.param()
       const item = await this.service.update(Number(id), c.req.parseBody())
 
@@ -52,6 +56,7 @@ class DefaultController {
 
   public static async delete() {
     this.routes.delete('/:id', async c => {
+      // TODO: Add AdminGuard
       const { id } = c.req.param()
       const item = await this.service.delete(Number(id))
 
