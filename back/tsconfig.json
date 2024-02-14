@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "nodenext",
     "esModuleInterop": true,
     "strict": true,
     "jsx": "react-jsx",
