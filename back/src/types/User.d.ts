@@ -1,3 +1,4 @@
+// Type definition for User model - User.d.ts
 type User = {
   id?: number
   username: string
