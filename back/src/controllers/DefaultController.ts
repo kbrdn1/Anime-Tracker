@@ -70,7 +70,7 @@ class DefaultController {
     })
   }
 
-  public delete = async () => {
+  public destroy = async () => {
     return this.routes.delete('/:id', async c => {
       // TODO: Add AdminGuard
       const { id } = c.req.param()
@@ -87,7 +87,7 @@ class DefaultController {
     this.show()
     this.store()
     this.update()
-    this.delete()
+    this.destroy()
 
     return this.routes
   }
