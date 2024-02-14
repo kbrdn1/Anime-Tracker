@@ -92,3 +92,5 @@ class DefaultController {
     return this.routes
   }
 }
+
+export default DefaultController
