@@ -1,26 +1,27 @@
+// Service for users - users.service.ts
 import { PrismaClient } from '@prisma/client'
 
 class UsersService {
   private prisma = new PrismaClient()
 
-  public async getAll() {
+  public getAll = async () => {
     // TODO: Add pagination
     return await this.prisma.users.findMany()
   }
-
-  public async get(id: number) {
+  
+  public get = async (id: number) => {
     return await this.prisma.users.findUnique({ where: { id } })
   }
 
-  public async create(data: any) {
+  public create = async (data: any) => {
     return await this.prisma.users.create({ data })
   }
 
-  public async update(id: number, data: any) {
+  public update = async (id: number, data: any) => {
     return await this.prisma.users.update({ where: { id }, data })
   }
 
-  public async delete(id: number) {
+  public delete = async (id: number) => {
     return await this.prisma.users.delete({ where: { id } })
   }
 }
