@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import Paginator from '@/components/Paginator'
 // import adminGuard from '@/middlewares/admin.guard'
 
 class DefaultController {
@@ -29,7 +30,8 @@ class DefaultController {
     return this.routes.get('/', async c => {
       console.log('this.service.getAll()', this.service.getAll())
       // TODO: Add AdminGuard
-      return c.json(await this.service.getAll())
+      const url = c.req.url
+      return c.json(await Paginator(c.req.query(), this.service, url))
     })
   }
 
