@@ -33,7 +33,7 @@ const users = async () => {
     create: {
       username: 'admin',
       email: 'admin@anime-tacker.fr',
-      password: faker.internet.password(),
+      password: '$2b$10$MQV1aTBKPeP1hkSYdwFeW.MThNQYrzpSZDG08.smbp.R/4mwilM4q',
       avatar: faker.image.avatar(),
       bio: faker.lorem.sentence(),
       role: 'admin',
