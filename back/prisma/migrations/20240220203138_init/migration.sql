@@ -277,16 +277,17 @@ CREATE TABLE `Status` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Gender` (
+CREATE TABLE `Genders` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NOT NULL,
+    `description` VARCHAR(191) NULL,
+    `deleted_at` DATETIME(3) NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `GenderOnAnimes` (
+CREATE TABLE `GendersOnAnimes` (
     `anime_id` INTEGER NOT NULL,
     `gender_id` INTEGER NOT NULL,
     `assigned_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -388,10 +389,10 @@ ALTER TABLE `AnimeTypesOnAnimes` ADD CONSTRAINT `AnimeTypesOnAnimes_anime_id_fke
 ALTER TABLE `AnimeTypesOnAnimes` ADD CONSTRAINT `AnimeTypesOnAnimes_anime_type_id_fkey` FOREIGN KEY (`anime_type_id`) REFERENCES `AnimeTypes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `GenderOnAnimes` ADD CONSTRAINT `GenderOnAnimes_anime_id_fkey` FOREIGN KEY (`anime_id`) REFERENCES `Animes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `GendersOnAnimes` ADD CONSTRAINT `GendersOnAnimes_anime_id_fkey` FOREIGN KEY (`anime_id`) REFERENCES `Animes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `GenderOnAnimes` ADD CONSTRAINT `GenderOnAnimes_gender_id_fkey` FOREIGN KEY (`gender_id`) REFERENCES `Gender`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `GendersOnAnimes` ADD CONSTRAINT `GendersOnAnimes_gender_id_fkey` FOREIGN KEY (`gender_id`) REFERENCES `Genders`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `StudiosOnAnimes` ADD CONSTRAINT `StudiosOnAnimes_anime_id_fkey` FOREIGN KEY (`anime_id`) REFERENCES `Animes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

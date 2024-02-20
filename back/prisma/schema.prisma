@@ -196,7 +196,7 @@ model Animes {
   seasons           Seasons[]
   themes            ThemesOnAnimes[]
   authors           AuthorsOnAnimes[]
-  genders           GenderOnAnimes[]
+  genders           GendersOnAnimes[]
   studios           StudiosOnAnimes[]
   types             AnimeTypesOnAnimes[]
   status            Status               @relation(fields: [status_id], references: [id])
@@ -265,17 +265,18 @@ model Status {
   animes      Animes[]
 }
 
-model Gender {
-  id          Int              @id @default(autoincrement())
+model Genders {
+  id          Int               @id @default(autoincrement())
   name        String
-  description String
-  animes      GenderOnAnimes[]
+  description String?
+  deleted_at  DateTime?
+  animes      GendersOnAnimes[]
 }
 
-model GenderOnAnimes {
+model GendersOnAnimes {
   anime       Animes   @relation(fields: [anime_id], references: [id])
   anime_id    Int
-  gender      Gender   @relation(fields: [gender_id], references: [id])
+  gender      Genders  @relation(fields: [gender_id], references: [id])
   gender_id   Int
   assigned_at DateTime @default(now())
 
