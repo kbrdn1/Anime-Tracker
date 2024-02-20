@@ -11,75 +11,290 @@ datasource db {
 }
 
 model Users {
-  id      Int      @id @default(autoincrement())
-  firstName String
-  lastName  String
-  email   String   @unique
-  password String
+  id              Int                      @id @default(autoincrement())
+  username        String                   @unique
+  email           String                   @unique
+  password        String
+  bio             String?
+  avatar          String?
+  role            String                   @default("user")
+  created_at      DateTime                 @default(now())
+  updated_at      DateTime                 @updatedAt
+  deleted_at      DateTime?
+  notifications   Notifications[]
+  favorites       FavoritesOnUsers[]
+  watchlist       WatchlistOnUsers[]
+  top5            Top5OnUsers[]
+  recommandations RecommandationsOnUsers[]
+  calendars       Calendars[]
+  claims          Claims[]
+  watched         Watch[]
 }
 
 model Notifications {
-  id     Int      @id @default(autoincrement())
-  title String
-  data  Json
-  is_read Boolean
+  id         Int      @id @default(autoincrement())
+  title      String
+  data       Json
+  is_read    Boolean
   created_at DateTime @default(now())
-  user_id Int
+  users      Users    @relation(fields: [user_id], references: [id])
+  user_id    Int
 }
 
 model Favorites {
-  id     Int      @id @default(autoincrement())
-  animes_ids Int
+  id         Int                @id @default(autoincrement())
+  animes_ids Json
+  users      FavoritesOnUsers[]
+}
+
+model FavoritesOnUsers {
+  user        Users     @relation(fields: [user_id], references: [id])
+  user_id     Int
+  favorite    Favorites @relation(fields: [favorite_id], references: [id])
+  favorite_id Int
+  assigned_at DateTime  @default(now())
+
+  @@id([user_id, favorite_id])
 }
 
 model Watchlist {
-  id     Int      @id @default(autoincrement())
-  animes_ids Int
+  id         Int                @id @default(autoincrement())
+  animes_ids Json
+  users      WatchlistOnUsers[]
+}
+
+model WatchlistOnUsers {
+  user         Users     @relation(fields: [user_id], references: [id])
+  user_id      Int
+  watchlist    Watchlist @relation(fields: [watchlist_id], references: [id])
+  watchlist_id Int
+  assigned_at  DateTime  @default(now())
+
+  @@id([user_id, watchlist_id])
 }
 
 model Top5 {
-  id     Int      @id @default(autoincrement())
-  animes_ids Int
+  id         Int           @id @default(autoincrement())
+  animes_ids Json
+  users      Top5OnUsers[]
 }
 
-model Calendars {
-  id     Int      @id @default(autoincrement())
-  data String
-  created_at DateTime @default(now())
-  animes_ids Int
-}
+model Top5OnUsers {
+  user        Users    @relation(fields: [user_id], references: [id])
+  user_id     Int
+  top5        Top5     @relation(fields: [top5_id], references: [id])
+  top5_id     Int
+  assigned_at DateTime @default(now())
 
-model StreamingPlatforms {
-  id     Int      @id @default(autoincrement())
-  name String
-  api_url String
-  logo String
-}
-
-model Claims {
-  id     Int      @id @default(autoincrement())
-  user_id Int
-  reward_id Int
-  created_at DateTime @default(now())
+  @@id([user_id, top5_id])
 }
 
 model Recommandations {
-  id     Int      @id @default(autoincrement())
-  animes_ids Int
+  id         Int                      @id @default(autoincrement())
+  animes_ids Json
+  users      RecommandationsOnUsers[]
 }
 
-model Types {
-  id     Int      @id @default(autoincrement())
-  name String
+model RecommandationsOnUsers {
+  user              Users           @relation(fields: [user_id], references: [id])
+  user_id           Int
+  recommandation    Recommandations @relation(fields: [recommandation_id], references: [id])
+  recommandation_id Int
+  assigned_at       DateTime        @default(now())
+
+  @@id([user_id, recommandation_id])
+}
+
+model Calendars {
+  id                    Int                @id @default(autoincrement())
+  data                  Json
+  created_at            DateTime           @default(now())
+  users                 Users              @relation(fields: [user_id], references: [id])
+  user_id               Int                @unique
+  streaming_platforms   StreamingPlatforms @relation(fields: [streaming_platform_id], references: [id])
+  streaming_platform_id Int                @unique
+}
+
+model StreamingPlatforms {
+  id          Int         @id @default(autoincrement())
+  name        String
   description String
+  api_url     String
+  logo        String
+  calendar    Calendars[]
+}
+
+model Claims {
+  id        Int      @id @default(autoincrement())
+  claim_at  DateTime @default(now())
+  users     Users    @relation(fields: [user_id], references: [id])
+  user_id   Int      @unique
+  Rewards   Rewards  @relation(fields: [reward_id], references: [id])
+  reward_id Int      @unique
 }
 
 model Rewards {
-  id     Int      @id @default(autoincrement())
-  name String
+  id          Int      @id @default(autoincrement())
+  title       String
   description String
-  badge String
-  condition Int
-  type_id Int
+  badge       String
+  condition   Int
+  claims      Claims[]
+  types       Types    @relation(fields: [type_id], references: [id])
+  type_id     Int      @unique
 }
 
+model Types {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  rewards     Rewards[]
+}
+
+model Watch {
+  id         Int      @id @default(autoincrement())
+  watched_at DateTime @default(now())
+  Episodes   Episodes @relation(fields: [episode_id], references: [id])
+  episode_id Int
+  Users      Users    @relation(fields: [user_id], references: [id])
+  user_id    Int
+}
+
+model Authors {
+  id                 Int               @id @default(autoincrement())
+  firstname          String
+  lastname           String
+  original_firstname String?
+  original_lastname  String?
+  bio                String?
+  avatar             String?
+  deleted_at         DateTime?
+  animes             AuthorsOnAnimes[]
+}
+
+model AuthorsOnAnimes {
+  anime       Animes   @relation(fields: [anime_id], references: [id])
+  anime_id    Int      @unique
+  author      Authors  @relation(fields: [author_id], references: [id])
+  author_id   Int
+  assigned_at DateTime @default(now())
+
+  @@id([anime_id, author_id])
+}
+
+model Animes {
+  id                Int                  @id @default(autoincrement())
+  title             String
+  japanese_title    String?
+  description       String?
+  jacket_img        String?
+  banner_img        String?
+  puplished_at      DateTime             @default(now())
+  crunchyroll_ref   String?
+  adn_ref           String?
+  my_anime_list_ref String?
+  seasons           Seasons[]
+  themes            ThemesOnAnimes[]
+  authors           AuthorsOnAnimes[]
+  genders           GenderOnAnimes[]
+  studios           StudiosOnAnimes[]
+  types             AnimeTypesOnAnimes[]
+  status            Status               @relation(fields: [status_id], references: [id])
+  status_id         Int                  @unique
+}
+
+model Seasons {
+  id           Int        @id @default(autoincrement())
+  title        String
+  description  String
+  puplished_at DateTime   @default(now())
+  Episodes     Episodes[]
+  animes       Animes     @relation(fields: [anime_id], references: [id])
+  anime_id     Int        @unique
+}
+
+model Episodes {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  duration    Int
+  puplish_at  DateTime @default(now())
+  watched     Watch[]
+  seasons     Seasons  @relation(fields: [season_id], references: [id])
+  season_id   Int      @unique
+}
+
+model Themes {
+  id          Int              @id @default(autoincrement())
+  name        String
+  description String
+  animes      ThemesOnAnimes[]
+}
+
+model ThemesOnAnimes {
+  anime       Animes   @relation(fields: [anime_id], references: [id])
+  anime_id    Int
+  theme       Themes   @relation(fields: [theme_id], references: [id])
+  theme_id    Int
+  assigned_at DateTime @default(now())
+
+  @@id([anime_id, theme_id])
+}
+
+model AnimeTypes {
+  id          Int                  @id @default(autoincrement())
+  name        String
+  description String
+  animes      AnimeTypesOnAnimes[]
+}
+
+model AnimeTypesOnAnimes {
+  anime         Animes     @relation(fields: [anime_id], references: [id])
+  anime_id      Int
+  anime_type    AnimeTypes @relation(fields: [anime_type_id], references: [id])
+  anime_type_id Int
+  assigned_at   DateTime   @default(now())
+
+  @@id([anime_id, anime_type_id])
+}
+
+model Status {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  animes      Animes[]
+}
+
+model Gender {
+  id          Int              @id @default(autoincrement())
+  name        String
+  description String
+  animes      GenderOnAnimes[]
+}
+
+model GenderOnAnimes {
+  anime       Animes   @relation(fields: [anime_id], references: [id])
+  anime_id    Int
+  gender      Gender   @relation(fields: [gender_id], references: [id])
+  gender_id   Int
+  assigned_at DateTime @default(now())
+
+  @@id([anime_id, gender_id])
+}
+
+model Studios {
+  id          Int               @id @default(autoincrement())
+  name        String
+  description String
+  animes      StudiosOnAnimes[]
+}
+
+model StudiosOnAnimes {
+  anime       Animes   @relation(fields: [anime_id], references: [id])
+  anime_id    Int
+  studio      Studios  @relation(fields: [studio_id], references: [id])
+  studio_id   Int
+  assigned_at DateTime @default(now())
+
+  @@id([anime_id, studio_id])
+}

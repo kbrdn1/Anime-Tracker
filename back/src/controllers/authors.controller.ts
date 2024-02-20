@@ -1,10 +1,10 @@
-// Controller for users - users.controller.ts
+// Controller for authors - authors.controller.ts
 import DefaultController from './DefaultController'
-import { usersService } from '@/services'
+import { authorsService } from '@/services'
 
 class UsersController extends DefaultController {
   constructor() {
-    super('/users', usersService, true)
+    super('/authors', authorsService, true)
   }
 }
 
