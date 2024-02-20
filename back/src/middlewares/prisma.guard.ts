@@ -6,7 +6,9 @@ const prisma = new PrismaClient().$extends({
   model: {
     users: {
       delete: async (params: any) => {
-        const user = await prisma.users.findUnique({ where: { id: params.where.id } })
+        const user = await prisma.users.findUnique({
+          where: { id: params.where.id },
+        })
 
         if (!user) throw new HTTPException(404, { message: 'User not found' })
 
@@ -18,7 +20,9 @@ const prisma = new PrismaClient().$extends({
         return updatedUser
       },
       deleteMany: async (params: any) => {
-        const users = await prisma.users.findMany({ where: { id: { in: params.where.id } } })
+        const users = await prisma.users.findMany({
+          where: { id: { in: params.where.id } },
+        })
 
         if (!users) throw new HTTPException(404, { message: 'Users not found' })
 
@@ -28,13 +32,16 @@ const prisma = new PrismaClient().$extends({
         })
 
         return updatedUsers
-      }
+      },
     },
     authors: {
       delete: async (params: any) => {
-        const author = await prisma.authors.findUnique({ where: { id: params.where.id } })
+        const author = await prisma.authors.findUnique({
+          where: { id: params.where.id },
+        })
 
-        if (!author) throw new HTTPException(404, { message: 'Author not found' })
+        if (!author)
+          throw new HTTPException(404, { message: 'Author not found' })
 
         const updatedAuthor = await prisma.authors.update({
           where: { id: params.where.id },
@@ -44,9 +51,12 @@ const prisma = new PrismaClient().$extends({
         return updatedAuthor
       },
       deleteMany: async (params: any) => {
-        const authors = await prisma.authors.findMany({ where: { id: { in: params.where.id } } })
+        const authors = await prisma.authors.findMany({
+          where: { id: { in: params.where.id } },
+        })
 
-        if (!authors) throw new HTTPException(404, { message: 'Authors not found' })
+        if (!authors)
+          throw new HTTPException(404, { message: 'Authors not found' })
 
         const updatedAuthors = await prisma.authors.updateMany({
           where: { id: { in: params.where.id } },
@@ -54,9 +64,40 @@ const prisma = new PrismaClient().$extends({
         })
 
         return updatedAuthors
-      }
-    }
-  }
-})
+      },
+    },
+    genders: {
+      delete: async (params: any) => {
+        const gender = await prisma.genders.findUnique({
+          where: { id: params.where.id },
+        })
 
+        if (!gender)
+          throw new HTTPException(404, { message: 'Gender not found' })
+
+        const updatedGender = await prisma.genders.update({
+          where: { id: params.where.id },
+          data: { deleted_at: new Date() },
+        })
+
+        return updatedGender
+      },
+      deleteMany: async (params: any) => {
+        const genders = await prisma.genders.findMany({
+          where: { id: { in: params.where.id } },
+        })
+
+        if (!genders)
+          throw new HTTPException(404, { message: 'Genders not found' })
+
+        const updatedGenders = await prisma.genders.updateMany({
+          where: { id: { in: params.where.id } },
+          data: { deleted_at: new Date() },
+        })
+
+        return updatedGenders
+      },
+    },
+  },
+})
 export default prisma
