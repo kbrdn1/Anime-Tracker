@@ -2,7 +2,4 @@
 import prisma from './prisma.guard'
 import adminGuard from './admin.guard'
 
-export {
-  adminGuard,
-  prisma
-}
+export { adminGuard, prisma }

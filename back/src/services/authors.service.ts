@@ -20,9 +20,15 @@ class AuthorsService {
         AND: [
           firstName ? { firstname: { contains: firstName } } : {},
           lastName ? { lastname: { contains: lastName } } : {},
-          originalFirstName ? { original_firstname: { contains: originalFirstName } } : {},
-          originalLastName ? { original_lastname: { contains: originalLastName } } : {},
-          trash ? { deleted_at: { not: null } } : { deleted_at: { equals: null } },
+          originalFirstName
+            ? { original_firstname: { contains: originalFirstName } }
+            : {},
+          originalLastName
+            ? { original_lastname: { contains: originalLastName } }
+            : {},
+          trash
+            ? { deleted_at: { not: null } }
+            : { deleted_at: { equals: null } },
         ],
       },
       skip: offset ?? undefined,
@@ -39,9 +45,15 @@ class AuthorsService {
         AND: [
           firstName ? { firstname: { contains: firstName } } : {},
           lastName ? { lastname: { contains: lastName } } : {},
-          originalFirstName ? { original_firstname: { contains: originalFirstName } } : {},
-          originalLastName ? { original_lastname: { contains: originalLastName } } : {},
-          trash ? { deleted_at: { not: null } } : { deleted_at: { equals: null } },
+          originalFirstName
+            ? { original_firstname: { contains: originalFirstName } }
+            : {},
+          originalLastName
+            ? { original_lastname: { contains: originalLastName } }
+            : {},
+          trash
+            ? { deleted_at: { not: null } }
+            : { deleted_at: { equals: null } },
         ],
       },
     })
@@ -50,47 +62,53 @@ class AuthorsService {
   public get = async (id: number) => {
     if (!id) throw new HTTPException(400, { message: 'ID is required' })
 
-    const authors = await this.authors.findUnique({ where: { id } })
+    const author = await this.authors.findUnique({ where: { id } })
 
-    if (!authors) throw new HTTPException(404, { message: 'Author not found' })
+    if (!author) throw new HTTPException(404, { message: 'Author not found' })
 
-    return authors
+    return author
   }
 
   public create = async (data: any) => {
     if (!data.firstname || !data.lastname)
-      throw new HTTPException(400, { message: 'Firstname and lastname are required' })
+      throw new HTTPException(400, {
+        message: 'Firstname and lastname are required',
+      })
 
     data.firstname = this.formatFirstname(data.firstname)
     data.lastname = this.formatLastname(data.lastname)
-    const user = await this.authors.create({ data })
 
-    if (!user)
+    const author = await this.authors.create({ data })
+
+    if (!author)
       throw new HTTPException(500, { message: 'Failed to create author' })
 
-    return user
+    return author
   }
 
   public update = async (id: number, data: any) => {
     if (!id) throw new HTTPException(400, { message: 'ID is required' })
 
-    const authors = await this.authors.update({ where: { id }, data })
+    if (data.firstname) data.firstname = this.formatFirstname(data.firstname)
+    if (data.lastname) data.lastname = this.formatLastname(data.lastname)
 
-    if (!authors)
+    const author = await this.authors.update({ where: { id }, data })
+
+    if (!author)
       throw new HTTPException(500, { message: 'Failed to update author' })
 
-    return authors
+    return author
   }
 
   public destroy = async (id: number) => {
     if (!id) throw new HTTPException(400, { message: 'ID is required' })
 
-    const authors = await this.authors.delete({ where: { id } })
+    const author = await this.authors.delete({ where: { id } })
 
-    if (!authors)
+    if (!author)
       throw new HTTPException(500, { message: 'Failed to delete author' })
 
-    return authors
+    return author
   }
 
   private formatFirstname = (str: string) => {

@@ -5,21 +5,20 @@ export const getPagesCount = (total: number, limit: number): number => {
   return Math.ceil(total / limit)
 }
 
-export const getPagesUrls = (pagesCount: number, currentPage: number, baseUrl: string): string[] => {
+export const getPagesUrls = (
+  pagesCount: number,
+  currentPage: number,
+  baseUrl: string
+): string[] => {
   const pages = []
   for (let i = 1; i <= pagesCount; i++) {
-    if (i === currentPage)
-      continue
+    if (i === currentPage) continue
 
     let url = baseUrl
-    if (url.includes('page'))
-      url = url.split('page')[0].slice(0, -1)
+    if (url.includes('page')) url = url.split('page')[0].slice(0, -1)
 
-    if (url.includes('?'))
-      pages.push(`${url}&page=${i}`)
-    else
-      pages.push(`${url}?page=${i}`)
-
+    if (url.includes('?')) pages.push(`${url}&page=${i}`)
+    else pages.push(`${url}?page=${i}`)
   }
   return pages
 }
