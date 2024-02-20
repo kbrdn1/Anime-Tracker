@@ -4,7 +4,7 @@ import { usersService } from '@/services'
 
 class UsersController extends DefaultController {
   constructor() {
-    super('/users', 'users', true, usersService)
+    super('/users', usersService, true)
   }
 }
 
