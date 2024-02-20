@@ -21,9 +21,9 @@ CREATE TABLE `Notifications` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(191) NOT NULL,
     `data` JSON NOT NULL,
-    `isRead` BOOLEAN NOT NULL,
+    `is_read` BOOLEAN NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `userId` INTEGER NOT NULL,
+    `user_id` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -38,11 +38,11 @@ CREATE TABLE `Favorites` (
 
 -- CreateTable
 CREATE TABLE `FavoritesOnUsers` (
-    `userId` INTEGER NOT NULL,
-    `favoriteId` INTEGER NOT NULL,
-    `assignedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `user_id` INTEGER NOT NULL,
+    `favorite_id` INTEGER NOT NULL,
+    `assigned_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
-    PRIMARY KEY (`userId`, `favoriteId`)
+    PRIMARY KEY (`user_id`, `favorite_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -55,11 +55,11 @@ CREATE TABLE `Watchlist` (
 
 -- CreateTable
 CREATE TABLE `WatchlistOnUsers` (
-    `userId` INTEGER NOT NULL,
-    `watchlistId` INTEGER NOT NULL,
-    `assignedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `user_id` INTEGER NOT NULL,
+    `watchlist_id` INTEGER NOT NULL,
+    `assigned_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
-    PRIMARY KEY (`userId`, `watchlistId`)
+    PRIMARY KEY (`user_id`, `watchlist_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -72,11 +72,11 @@ CREATE TABLE `Top5` (
 
 -- CreateTable
 CREATE TABLE `Top5OnUsers` (
-    `userId` INTEGER NOT NULL,
-    `top5Id` INTEGER NOT NULL,
-    `assignedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `user_id` INTEGER NOT NULL,
+    `top5_id` INTEGER NOT NULL,
+    `assigned_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
-    PRIMARY KEY (`userId`, `top5Id`)
+    PRIMARY KEY (`user_id`, `top5_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -89,12 +89,11 @@ CREATE TABLE `Recommandations` (
 
 -- CreateTable
 CREATE TABLE `RecommandationsOnUsers` (
-    `userId` INTEGER NOT NULL,
-    `recommandationId` INTEGER NOT NULL,
-    `assignedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `assignedBy` VARCHAR(191) NOT NULL,
+    `user_id` INTEGER NOT NULL,
+    `recommandation_id` INTEGER NOT NULL,
+    `assigned_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
-    PRIMARY KEY (`userId`, `recommandationId`)
+    PRIMARY KEY (`user_id`, `recommandation_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -102,11 +101,11 @@ CREATE TABLE `Calendars` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `data` JSON NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `userId` INTEGER NOT NULL,
-    `streamingPlatformId` INTEGER NOT NULL,
+    `user_id` INTEGER NOT NULL,
+    `streaming_platform_id` INTEGER NOT NULL,
 
-    UNIQUE INDEX `Calendars_userId_key`(`userId`),
-    UNIQUE INDEX `Calendars_streamingPlatformId_key`(`streamingPlatformId`),
+    UNIQUE INDEX `Calendars_user_id_key`(`user_id`),
+    UNIQUE INDEX `Calendars_streaming_platform_id_key`(`streaming_platform_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -125,11 +124,11 @@ CREATE TABLE `StreamingPlatforms` (
 CREATE TABLE `Claims` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `claim_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `userId` INTEGER NOT NULL,
-    `rewardId` INTEGER NOT NULL,
+    `user_id` INTEGER NOT NULL,
+    `reward_id` INTEGER NOT NULL,
 
-    UNIQUE INDEX `Claims_userId_key`(`userId`),
-    UNIQUE INDEX `Claims_rewardId_key`(`rewardId`),
+    UNIQUE INDEX `Claims_user_id_key`(`user_id`),
+    UNIQUE INDEX `Claims_reward_id_key`(`reward_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -140,9 +139,9 @@ CREATE TABLE `Rewards` (
     `description` VARCHAR(191) NOT NULL,
     `badge` VARCHAR(191) NOT NULL,
     `condition` INTEGER NOT NULL,
-    `typeId` INTEGER NOT NULL,
+    `type_id` INTEGER NOT NULL,
 
-    UNIQUE INDEX `Rewards_typeId_key`(`typeId`),
+    UNIQUE INDEX `Rewards_type_id_key`(`type_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -168,39 +167,42 @@ CREATE TABLE `Watch` (
 -- CreateTable
 CREATE TABLE `Authors` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `firtName` VARCHAR(191) NOT NULL,
-    `lastName` VARCHAR(191) NOT NULL,
-    `bio` VARCHAR(191) NOT NULL,
-    `avatar` VARCHAR(191) NOT NULL,
+    `firstname` VARCHAR(191) NOT NULL,
+    `lastname` VARCHAR(191) NOT NULL,
+    `original_firstname` VARCHAR(191) NULL,
+    `original_lastname` VARCHAR(191) NULL,
+    `bio` VARCHAR(191) NULL,
+    `avatar` VARCHAR(191) NULL,
+    `deleted_at` DATETIME(3) NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `AuthorsOnAnimes` (
-    `animeId` INTEGER NOT NULL,
-    `authorId` INTEGER NOT NULL,
-    `assignedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `anime_id` INTEGER NOT NULL,
+    `author_id` INTEGER NOT NULL,
+    `assigned_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
-    UNIQUE INDEX `AuthorsOnAnimes_animeId_key`(`animeId`),
-    PRIMARY KEY (`animeId`, `authorId`)
+    UNIQUE INDEX `AuthorsOnAnimes_anime_id_key`(`anime_id`),
+    PRIMARY KEY (`anime_id`, `author_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `Animes` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(191) NOT NULL,
-    `japanese_title` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NOT NULL,
-    `jacket_img` VARCHAR(191) NOT NULL,
-    `banner_img` VARCHAR(191) NOT NULL,
+    `japanese_title` VARCHAR(191) NULL,
+    `description` VARCHAR(191) NULL,
+    `jacket_img` VARCHAR(191) NULL,
+    `banner_img` VARCHAR(191) NULL,
     `puplished_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `crunchyroll_ref` VARCHAR(191) NOT NULL,
-    `adn_ref` VARCHAR(191) NOT NULL,
-    `my_anime_list_ref` VARCHAR(191) NOT NULL,
-    `statusId` INTEGER NOT NULL,
+    `crunchyroll_ref` VARCHAR(191) NULL,
+    `adn_ref` VARCHAR(191) NULL,
+    `my_anime_list_ref` VARCHAR(191) NULL,
+    `status_id` INTEGER NOT NULL,
 
-    UNIQUE INDEX `Animes_statusId_key`(`statusId`),
+    UNIQUE INDEX `Animes_status_id_key`(`status_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -210,9 +212,9 @@ CREATE TABLE `Seasons` (
     `title` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NOT NULL,
     `puplished_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `animeId` INTEGER NOT NULL,
+    `anime_id` INTEGER NOT NULL,
 
-    UNIQUE INDEX `Seasons_animeId_key`(`animeId`),
+    UNIQUE INDEX `Seasons_anime_id_key`(`anime_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -223,9 +225,9 @@ CREATE TABLE `Episodes` (
     `description` VARCHAR(191) NOT NULL,
     `duration` INTEGER NOT NULL,
     `puplish_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `seasonId` INTEGER NOT NULL,
+    `season_id` INTEGER NOT NULL,
 
-    UNIQUE INDEX `Episodes_seasonId_key`(`seasonId`),
+    UNIQUE INDEX `Episodes_season_id_key`(`season_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -240,11 +242,11 @@ CREATE TABLE `Themes` (
 
 -- CreateTable
 CREATE TABLE `ThemesOnAnimes` (
-    `animeId` INTEGER NOT NULL,
-    `themeId` INTEGER NOT NULL,
-    `assignedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `anime_id` INTEGER NOT NULL,
+    `theme_id` INTEGER NOT NULL,
+    `assigned_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
-    PRIMARY KEY (`animeId`, `themeId`)
+    PRIMARY KEY (`anime_id`, `theme_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -258,11 +260,11 @@ CREATE TABLE `AnimeTypes` (
 
 -- CreateTable
 CREATE TABLE `AnimeTypesOnAnimes` (
-    `animeId` INTEGER NOT NULL,
-    `animeTypeId` INTEGER NOT NULL,
-    `assignedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `anime_id` INTEGER NOT NULL,
+    `anime_type_id` INTEGER NOT NULL,
+    `assigned_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
-    PRIMARY KEY (`animeId`, `animeTypeId`)
+    PRIMARY KEY (`anime_id`, `anime_type_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -285,11 +287,11 @@ CREATE TABLE `Gender` (
 
 -- CreateTable
 CREATE TABLE `GenderOnAnimes` (
-    `animeId` INTEGER NOT NULL,
-    `genderId` INTEGER NOT NULL,
-    `assignedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `anime_id` INTEGER NOT NULL,
+    `gender_id` INTEGER NOT NULL,
+    `assigned_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
-    PRIMARY KEY (`animeId`, `genderId`)
+    PRIMARY KEY (`anime_id`, `gender_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -303,54 +305,54 @@ CREATE TABLE `Studios` (
 
 -- CreateTable
 CREATE TABLE `StudiosOnAnimes` (
-    `animeId` INTEGER NOT NULL,
-    `studioId` INTEGER NOT NULL,
-    `assignedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `anime_id` INTEGER NOT NULL,
+    `studio_id` INTEGER NOT NULL,
+    `assigned_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
-    PRIMARY KEY (`animeId`, `studioId`)
+    PRIMARY KEY (`anime_id`, `studio_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `Notifications` ADD CONSTRAINT `Notifications_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Notifications` ADD CONSTRAINT `Notifications_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `FavoritesOnUsers` ADD CONSTRAINT `FavoritesOnUsers_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `FavoritesOnUsers` ADD CONSTRAINT `FavoritesOnUsers_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `FavoritesOnUsers` ADD CONSTRAINT `FavoritesOnUsers_favoriteId_fkey` FOREIGN KEY (`favoriteId`) REFERENCES `Favorites`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `FavoritesOnUsers` ADD CONSTRAINT `FavoritesOnUsers_favorite_id_fkey` FOREIGN KEY (`favorite_id`) REFERENCES `Favorites`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `WatchlistOnUsers` ADD CONSTRAINT `WatchlistOnUsers_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `WatchlistOnUsers` ADD CONSTRAINT `WatchlistOnUsers_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `WatchlistOnUsers` ADD CONSTRAINT `WatchlistOnUsers_watchlistId_fkey` FOREIGN KEY (`watchlistId`) REFERENCES `Watchlist`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `WatchlistOnUsers` ADD CONSTRAINT `WatchlistOnUsers_watchlist_id_fkey` FOREIGN KEY (`watchlist_id`) REFERENCES `Watchlist`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Top5OnUsers` ADD CONSTRAINT `Top5OnUsers_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Top5OnUsers` ADD CONSTRAINT `Top5OnUsers_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Top5OnUsers` ADD CONSTRAINT `Top5OnUsers_top5Id_fkey` FOREIGN KEY (`top5Id`) REFERENCES `Top5`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Top5OnUsers` ADD CONSTRAINT `Top5OnUsers_top5_id_fkey` FOREIGN KEY (`top5_id`) REFERENCES `Top5`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `RecommandationsOnUsers` ADD CONSTRAINT `RecommandationsOnUsers_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `RecommandationsOnUsers` ADD CONSTRAINT `RecommandationsOnUsers_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `RecommandationsOnUsers` ADD CONSTRAINT `RecommandationsOnUsers_recommandationId_fkey` FOREIGN KEY (`recommandationId`) REFERENCES `Recommandations`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `RecommandationsOnUsers` ADD CONSTRAINT `RecommandationsOnUsers_recommandation_id_fkey` FOREIGN KEY (`recommandation_id`) REFERENCES `Recommandations`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Calendars` ADD CONSTRAINT `Calendars_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Calendars` ADD CONSTRAINT `Calendars_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Calendars` ADD CONSTRAINT `Calendars_streamingPlatformId_fkey` FOREIGN KEY (`streamingPlatformId`) REFERENCES `StreamingPlatforms`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Calendars` ADD CONSTRAINT `Calendars_streaming_platform_id_fkey` FOREIGN KEY (`streaming_platform_id`) REFERENCES `StreamingPlatforms`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Claims` ADD CONSTRAINT `Claims_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Claims` ADD CONSTRAINT `Claims_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Claims` ADD CONSTRAINT `Claims_rewardId_fkey` FOREIGN KEY (`rewardId`) REFERENCES `Rewards`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Claims` ADD CONSTRAINT `Claims_reward_id_fkey` FOREIGN KEY (`reward_id`) REFERENCES `Rewards`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Rewards` ADD CONSTRAINT `Rewards_typeId_fkey` FOREIGN KEY (`typeId`) REFERENCES `Types`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Rewards` ADD CONSTRAINT `Rewards_type_id_fkey` FOREIGN KEY (`type_id`) REFERENCES `Types`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Watch` ADD CONSTRAINT `Watch_episode_id_fkey` FOREIGN KEY (`episode_id`) REFERENCES `Episodes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -359,40 +361,40 @@ ALTER TABLE `Watch` ADD CONSTRAINT `Watch_episode_id_fkey` FOREIGN KEY (`episode
 ALTER TABLE `Watch` ADD CONSTRAINT `Watch_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `AuthorsOnAnimes` ADD CONSTRAINT `AuthorsOnAnimes_animeId_fkey` FOREIGN KEY (`animeId`) REFERENCES `Animes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `AuthorsOnAnimes` ADD CONSTRAINT `AuthorsOnAnimes_anime_id_fkey` FOREIGN KEY (`anime_id`) REFERENCES `Animes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `AuthorsOnAnimes` ADD CONSTRAINT `AuthorsOnAnimes_authorId_fkey` FOREIGN KEY (`authorId`) REFERENCES `Authors`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `AuthorsOnAnimes` ADD CONSTRAINT `AuthorsOnAnimes_author_id_fkey` FOREIGN KEY (`author_id`) REFERENCES `Authors`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Animes` ADD CONSTRAINT `Animes_statusId_fkey` FOREIGN KEY (`statusId`) REFERENCES `Status`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Animes` ADD CONSTRAINT `Animes_status_id_fkey` FOREIGN KEY (`status_id`) REFERENCES `Status`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Seasons` ADD CONSTRAINT `Seasons_animeId_fkey` FOREIGN KEY (`animeId`) REFERENCES `Animes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Seasons` ADD CONSTRAINT `Seasons_anime_id_fkey` FOREIGN KEY (`anime_id`) REFERENCES `Animes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Episodes` ADD CONSTRAINT `Episodes_seasonId_fkey` FOREIGN KEY (`seasonId`) REFERENCES `Seasons`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Episodes` ADD CONSTRAINT `Episodes_season_id_fkey` FOREIGN KEY (`season_id`) REFERENCES `Seasons`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `ThemesOnAnimes` ADD CONSTRAINT `ThemesOnAnimes_animeId_fkey` FOREIGN KEY (`animeId`) REFERENCES `Animes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `ThemesOnAnimes` ADD CONSTRAINT `ThemesOnAnimes_anime_id_fkey` FOREIGN KEY (`anime_id`) REFERENCES `Animes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `ThemesOnAnimes` ADD CONSTRAINT `ThemesOnAnimes_themeId_fkey` FOREIGN KEY (`themeId`) REFERENCES `Themes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `ThemesOnAnimes` ADD CONSTRAINT `ThemesOnAnimes_theme_id_fkey` FOREIGN KEY (`theme_id`) REFERENCES `Themes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `AnimeTypesOnAnimes` ADD CONSTRAINT `AnimeTypesOnAnimes_animeId_fkey` FOREIGN KEY (`animeId`) REFERENCES `Animes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `AnimeTypesOnAnimes` ADD CONSTRAINT `AnimeTypesOnAnimes_anime_id_fkey` FOREIGN KEY (`anime_id`) REFERENCES `Animes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `AnimeTypesOnAnimes` ADD CONSTRAINT `AnimeTypesOnAnimes_animeTypeId_fkey` FOREIGN KEY (`animeTypeId`) REFERENCES `AnimeTypes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `AnimeTypesOnAnimes` ADD CONSTRAINT `AnimeTypesOnAnimes_anime_type_id_fkey` FOREIGN KEY (`anime_type_id`) REFERENCES `AnimeTypes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `GenderOnAnimes` ADD CONSTRAINT `GenderOnAnimes_animeId_fkey` FOREIGN KEY (`animeId`) REFERENCES `Animes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `GenderOnAnimes` ADD CONSTRAINT `GenderOnAnimes_anime_id_fkey` FOREIGN KEY (`anime_id`) REFERENCES `Animes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `GenderOnAnimes` ADD CONSTRAINT `GenderOnAnimes_genderId_fkey` FOREIGN KEY (`genderId`) REFERENCES `Gender`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `GenderOnAnimes` ADD CONSTRAINT `GenderOnAnimes_gender_id_fkey` FOREIGN KEY (`gender_id`) REFERENCES `Gender`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `StudiosOnAnimes` ADD CONSTRAINT `StudiosOnAnimes_animeId_fkey` FOREIGN KEY (`animeId`) REFERENCES `Animes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `StudiosOnAnimes` ADD CONSTRAINT `StudiosOnAnimes_anime_id_fkey` FOREIGN KEY (`anime_id`) REFERENCES `Animes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `StudiosOnAnimes` ADD CONSTRAINT `StudiosOnAnimes_studioId_fkey` FOREIGN KEY (`studioId`) REFERENCES `Studios`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `StudiosOnAnimes` ADD CONSTRAINT `StudiosOnAnimes_studio_id_fkey` FOREIGN KEY (`studio_id`) REFERENCES `Studios`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
