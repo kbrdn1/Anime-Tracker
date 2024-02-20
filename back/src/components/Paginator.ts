@@ -1,6 +1,12 @@
 // Paginator component for pagination - Paginator.ts
 import type { Pagination } from '@/types'
-import { getPagesCount, getPagesUrls, getOffset, getCurrentPage, getPage } from '@/utils'
+import {
+  getPagesCount,
+  getPagesUrls,
+  getOffset,
+  getCurrentPage,
+  getPage,
+} from '@/utils'
 import { tr } from '@faker-js/faker'
 
 const Paginator = async (
@@ -12,7 +18,10 @@ const Paginator = async (
 
   const count: number = await service.count(params, trash === 'true')
   const pagesCount = getPagesCount(count, limit ? Number(limit) : 50)
-  const currentPage: number = getCurrentPage(page ? getPage(page) : 1, pagesCount)
+  const currentPage: number = getCurrentPage(
+    page ? getPage(page) : 1,
+    pagesCount
+  )
 
   const items = await service.getAll(
     params,

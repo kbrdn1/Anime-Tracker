@@ -20,9 +20,15 @@ class AuthorsService {
         AND: [
           firstName ? { firstname: { contains: firstName } } : {},
           lastName ? { lastname: { contains: lastName } } : {},
-          originalFirstName ? { original_firstname: { contains: originalFirstName } } : {},
-          originalLastName ? { original_lastname: { contains: originalLastName } } : {},
-          trash ? { deleted_at: { not: null } } : { deleted_at: { equals: null } },
+          originalFirstName
+            ? { original_firstname: { contains: originalFirstName } }
+            : {},
+          originalLastName
+            ? { original_lastname: { contains: originalLastName } }
+            : {},
+          trash
+            ? { deleted_at: { not: null } }
+            : { deleted_at: { equals: null } },
         ],
       },
       skip: offset ?? undefined,
@@ -39,9 +45,15 @@ class AuthorsService {
         AND: [
           firstName ? { firstname: { contains: firstName } } : {},
           lastName ? { lastname: { contains: lastName } } : {},
-          originalFirstName ? { original_firstname: { contains: originalFirstName } } : {},
-          originalLastName ? { original_lastname: { contains: originalLastName } } : {},
-          trash ? { deleted_at: { not: null } } : { deleted_at: { equals: null } },
+          originalFirstName
+            ? { original_firstname: { contains: originalFirstName } }
+            : {},
+          originalLastName
+            ? { original_lastname: { contains: originalLastName } }
+            : {},
+          trash
+            ? { deleted_at: { not: null } }
+            : { deleted_at: { equals: null } },
         ],
       },
     })
@@ -59,7 +71,9 @@ class AuthorsService {
 
   public create = async (data: any) => {
     if (!data.firstname || !data.lastname)
-      throw new HTTPException(400, { message: 'Firstname and lastname are required' })
+      throw new HTTPException(400, {
+        message: 'Firstname and lastname are required',
+      })
 
     data.firstname = this.formatFirstname(data.firstname)
     data.lastname = this.formatLastname(data.lastname)

@@ -22,7 +22,9 @@ class UsersService {
           username ? { username: { contains: username } } : {},
           email ? { email: { contains: email } } : {},
           role ? { role: { contains: role } } : {},
-          trash ? { deleted_at: { not: null } } : { deleted_at: { equals: null } },
+          trash
+            ? { deleted_at: { not: null } }
+            : { deleted_at: { equals: null } },
         ],
       },
       skip: offset ?? undefined,
@@ -40,7 +42,9 @@ class UsersService {
           username ? { username: { contains: username } } : {},
           email ? { email: { contains: email } } : {},
           role ? { role: { contains: role } } : {},
-          trash ? { deleted_at: { not: null } } : { deleted_at: { equals: null } },
+          trash
+            ? { deleted_at: { not: null } }
+            : { deleted_at: { equals: null } },
         ],
       },
     })

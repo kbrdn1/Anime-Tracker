@@ -12,11 +12,7 @@ class DefaultController {
   protected service: any
   protected adminGuard = adminGuard
 
-  constructor(
-    basePath: string,
-    service: any,
-    isProtected: boolean = false
-  ) {
+  constructor(basePath: string, service: any, isProtected: boolean = false) {
     this.basePath = basePath
     this.isProtected = isProtected
     this.routes = new Hono().basePath(this.basePath)
@@ -24,7 +20,7 @@ class DefaultController {
   }
 
   private protect = async () => {
-    return this.routes.use("/*", async (c, next) => {
+    return this.routes.use('/*', async (c, next) => {
       if (!this.isProtected) return await next()
       else {
         const token = c.req.header('Authorization')

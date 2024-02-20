@@ -62,7 +62,7 @@ class AuthService {
     try {
       return await Bun.password.hash(password, {
         algorithm: 'bcrypt',
-        cost: Number(this.saltRounds)
+        cost: Number(this.saltRounds),
       })
     } catch (err) {
       throw new HTTPException(500, { message: 'Failed to hash password' })
