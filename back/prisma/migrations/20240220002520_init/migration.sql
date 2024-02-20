@@ -9,6 +9,7 @@ CREATE TABLE `Users` (
     `role` VARCHAR(191) NOT NULL DEFAULT 'user',
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL,
+    `deleted_at` DATETIME(3) NULL,
 
     UNIQUE INDEX `Users_username_key`(`username`),
     UNIQUE INDEX `Users_email_key`(`email`),
