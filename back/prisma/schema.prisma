@@ -198,8 +198,8 @@ model Animes {
   authors           AuthorsOnAnimes[]
   genders           GendersOnAnimes[]
   studios           StudiosOnAnimes[]
-  types             AnimeTypesOnAnimes[]
-  status            Status               @relation(fields: [status_id], references: [id])
+  animeTypes        AnimeTypesOnAnimes[]
+  statuses          Statuses             @relation(fields: [status_id], references: [id])
   status_id         Int                  @unique
 }
 
@@ -258,10 +258,11 @@ model AnimeTypesOnAnimes {
   @@id([anime_id, anime_type_id])
 }
 
-model Status {
-  id          Int      @id @default(autoincrement())
+model Statuses {
+  id          Int       @id @default(autoincrement())
   name        String
   description String
+  deleted_at  DateTime?
   animes      Animes[]
 }
 

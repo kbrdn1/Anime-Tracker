@@ -268,10 +268,11 @@ CREATE TABLE `AnimeTypesOnAnimes` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Status` (
+CREATE TABLE `Statuses` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NOT NULL,
+    `deleted_at` DATETIME(3) NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -368,7 +369,7 @@ ALTER TABLE `AuthorsOnAnimes` ADD CONSTRAINT `AuthorsOnAnimes_anime_id_fkey` FOR
 ALTER TABLE `AuthorsOnAnimes` ADD CONSTRAINT `AuthorsOnAnimes_author_id_fkey` FOREIGN KEY (`author_id`) REFERENCES `Authors`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Animes` ADD CONSTRAINT `Animes_status_id_fkey` FOREIGN KEY (`status_id`) REFERENCES `Status`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Animes` ADD CONSTRAINT `Animes_status_id_fkey` FOREIGN KEY (`status_id`) REFERENCES `Statuses`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Seasons` ADD CONSTRAINT `Seasons_anime_id_fkey` FOREIGN KEY (`anime_id`) REFERENCES `Animes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
