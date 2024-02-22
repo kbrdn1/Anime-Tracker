@@ -65,7 +65,7 @@ class DefaultController {
   }
 
   public update = async () => {
-    return this.routes.patch('/:id', async c => {
+    return this.routes.put('/:id', async c => {
       const { id } = c.req.param()
       const body = await c.req.json()
 

@@ -64,7 +64,11 @@ class UsersService {
     if (!data.password)
       throw new HTTPException(400, { message: 'Password is required' })
 
+    if (!data.email || !data.username)
+      throw new HTTPException(400, { message: 'Email or username is required' })
+
     data.password = await this.hashPassword(data.password)
+    data.email = this.formatEmail(data.email)
 
     const user = await this.users.create({ data })
 
@@ -76,6 +80,7 @@ class UsersService {
 
   public update = async (id: number, data: any) => {
     if (data.password) data.password = await this.hashPassword(data.password)
+    if (data.email) data.email = this.formatEmail(data.email)
 
     const user = await this.users.update({ where: { id }, data })
 
@@ -108,6 +113,10 @@ class UsersService {
     } catch (err) {
       throw new HTTPException(500, { message: 'Failed to hash password' })
     }
+  }
+
+  private formatEmail = (str: string) => {
+    return str.toLowerCase()
   }
 }
 

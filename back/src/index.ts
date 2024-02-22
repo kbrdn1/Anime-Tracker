@@ -4,6 +4,7 @@ import {
   usersController,
   authorsController,
   gendersController,
+  statusesController
 } from './controllers'
 
 const api = new Hono().basePath('/api/v1')
@@ -16,5 +17,6 @@ api.route('', usersController.router())
 api.route('', authController.router())
 api.route('', authorsController.router())
 api.route('', gendersController.router())
+api.route('', statusesController.router())
 
 export default api

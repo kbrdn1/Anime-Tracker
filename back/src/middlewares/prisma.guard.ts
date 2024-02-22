@@ -17,6 +17,9 @@ const prisma = new PrismaClient().$extends({
           data: { deleted_at: new Date() },
         })
 
+        if (!updatedUser)
+          throw new HTTPException(500, { message: 'Failed to delete user' })
+
         return updatedUser
       },
       deleteMany: async (params: any) => {
@@ -30,6 +33,9 @@ const prisma = new PrismaClient().$extends({
           where: { id: { in: params.where.id } },
           data: { deleted_at: new Date() },
         })
+
+        if (!updatedUsers)
+          throw new HTTPException(500, { message: 'Failed to delete users' })
 
         return updatedUsers
       },
@@ -48,6 +54,9 @@ const prisma = new PrismaClient().$extends({
           data: { deleted_at: new Date() },
         })
 
+        if (!updatedAuthor)
+          throw new HTTPException(500, { message: 'Failed to delete author' })
+
         return updatedAuthor
       },
       deleteMany: async (params: any) => {
@@ -62,6 +71,9 @@ const prisma = new PrismaClient().$extends({
           where: { id: { in: params.where.id } },
           data: { deleted_at: new Date() },
         })
+
+        if (!updatedAuthors)
+          throw new HTTPException(500, { message: 'Failed to delete authors' })
 
         return updatedAuthors
       },
@@ -80,6 +92,9 @@ const prisma = new PrismaClient().$extends({
           data: { deleted_at: new Date() },
         })
 
+        if (!updatedGender)
+          throw new HTTPException(500, { message: 'Failed to delete gender' })
+
         return updatedGender
       },
       deleteMany: async (params: any) => {
@@ -95,9 +110,50 @@ const prisma = new PrismaClient().$extends({
           data: { deleted_at: new Date() },
         })
 
+        if (!updatedGenders)
+          throw new HTTPException(500, { message: 'Failed to delete genders' })
+
         return updatedGenders
       },
     },
-  },
+    statuses: {
+      delete: async (params: any) => {
+        const status = await prisma.statuses.findUnique({
+          where: { id: params.where.id },
+        })
+
+        if (!status)
+          throw new HTTPException(404, { message: 'Status not found' })
+
+        const updatedStatus = await prisma.statuses.update({
+          where: { id: params.where.id },
+          data: { deleted_at: new Date() },
+        })
+
+        if (!updatedStatus)
+          throw new HTTPException(500, { message: 'Failed to delete status' })
+
+        return updatedStatus
+      },
+      deleteMany: async (params: any) => {
+        const statuses = await prisma.statuses.findMany({
+          where: { id: { in: params.where.id } },
+        })
+
+        if (!statuses)
+          throw new HTTPException(404, { message: 'Statuses not found' })
+
+        const updatedStatuses = await prisma.statuses.updateMany({
+          where: { id: { in: params.where.id } },
+          data: { deleted_at: new Date() },
+        })
+
+        if (!updatedStatuses)
+          throw new HTTPException(500, { message: 'Failed to delete statuses' })
+
+        return updatedStatuses
+      },
+    }
+  }
 })
 export default prisma
