@@ -1,6 +1,7 @@
 // Service for users - users.service.ts
 import { prisma } from '@/middlewares'
 import { HTTPException } from 'hono/http-exception'
+import { capitalizeFirstLetterAndLetterAfterEachHyphen } from '@/utils'
 
 class AuthorsService {
   private authors = prisma.authors
@@ -112,7 +113,7 @@ class AuthorsService {
   }
 
   private formatFirstname = (str: string) => {
-    return str.charAt(0).toUpperCase() + str.slice(1)
+    return capitalizeFirstLetterAndLetterAfterEachHyphen(str)
   }
 
   private formatLastname = (str: string) => {
