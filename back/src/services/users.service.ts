@@ -2,11 +2,7 @@
 import { env } from 'bun'
 import { prisma } from '@/middlewares'
 import { HTTPException } from 'hono/http-exception'
-import {
-  usernameRegex,
-  emailRegex,
-  passwordRegex
-} from '@/utils'
+import { usernameRegex, emailRegex, passwordRegex } from '@/utils'
 import { usersRessource } from '@/ressources'
 
 class UsersService {
@@ -141,7 +137,7 @@ class UsersService {
 
     const updatedUser = await this.users.update({
       where: { id: user.id },
-      data: { token_created_at:  new Date() },
+      data: { token_created_at: new Date() },
     })
 
     if (!updatedUser)

@@ -4,4 +4,4 @@ import adminGuard from './admin.guard'
 import securityGuard from './security.guard'
 import brutForceGuard from './brute-force.guard'
 
-export { adminGuard, prisma, securityGuard, brutForceGuard}
+export { adminGuard, prisma, securityGuard, brutForceGuard }

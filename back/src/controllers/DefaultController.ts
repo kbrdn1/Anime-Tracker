@@ -3,7 +3,6 @@ import { Hono } from 'hono'
 import Paginator from '@/components/Paginator'
 import { adminGuard } from '@/middlewares'
 import { HTTPException } from 'hono/http-exception'
-import { User } from '@/types'
 
 class DefaultController {
   protected basePath: string = '/'

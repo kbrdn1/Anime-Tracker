@@ -10,7 +10,7 @@ import {
   usersController,
   authorsController,
   gendersController,
-  statusesController
+  statusesController,
 } from './controllers'
 
 const api = new Hono().basePath('/api/v1')
@@ -37,5 +37,5 @@ export default {
   fetch(this, request: Request, server: Server) {
     const ip = server.requestIP(request)
     return api.fetch(request, { ip })
-  }
+  },
 }

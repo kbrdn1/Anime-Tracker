@@ -153,7 +153,7 @@ const prisma = new PrismaClient().$extends({
 
         return updatedStatuses
       },
-    }
-  }
+    },
+  },
 })
 export default prisma

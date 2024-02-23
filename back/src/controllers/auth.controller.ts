@@ -30,8 +30,7 @@ class AuthController {
     return this.routes.get('/verify', async c => {
       const token = c.req.header('Authorization')
 
-      if (!token)
-        throw new HTTPException(401, { message: 'No token provided' })
+      if (!token) throw new HTTPException(401, { message: 'No token provided' })
 
       if (!JWTregex.test(token))
         throw new HTTPException(401, { message: 'Invalid token' })
