@@ -7,8 +7,9 @@ type User = {
   bio?: string
   avatar?: string
   role?: string
-  createdAt?: string
+  tokenCreatedAt?: string
   updatedAt?: string
+  createdAt?: string
 }
 
 export default User
