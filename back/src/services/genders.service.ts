@@ -1,6 +1,9 @@
 // Service for users - users.service.ts
 import { prisma } from '@/middlewares'
-import { capitalizeFirstLetter, capitalizeFirstLetterOfEachPhrase } from '@/utils'
+import {
+  capitalizeFirstLetter,
+  capitalizeFirstLetterOfEachPhrase,
+} from '@/utils'
 import { HTTPException } from 'hono/http-exception'
 
 class GendersService {

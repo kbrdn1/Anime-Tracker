@@ -7,6 +7,7 @@ CREATE TABLE `Users` (
     `bio` VARCHAR(191) NULL,
     `avatar` VARCHAR(191) NULL,
     `role` VARCHAR(191) NOT NULL DEFAULT 'user',
+    `token_created_at` DATETIME(3) NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL,
     `deleted_at` DATETIME(3) NULL,

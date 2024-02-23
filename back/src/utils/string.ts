@@ -4,9 +4,9 @@ export const capitalizeFirstLetter = (str: string) => {
 }
 
 export const capitalizeFirstLetterOfEachPhrase = (str: string) => {
-  return str.replace(/(^\w{1}|\.\s*\w{1})/gi, (match) => match.toUpperCase())
+  return str.replace(/(^\w{1}|\.\s*\w{1})/gi, match => match.toUpperCase())
 }
 
 export const capitalizeFirstLetterAndLetterAfterEachHyphen = (str: string) => {
-  return str.replace(/(^|-)(\w)/g, (match) => match.toUpperCase())
+  return str.replace(/(^|-)(\w)/g, match => match.toUpperCase())
 }

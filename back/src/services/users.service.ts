@@ -1,10 +1,13 @@
 // Service for users - users.service.ts
+import { env } from 'bun'
 import { prisma } from '@/middlewares'
 import { HTTPException } from 'hono/http-exception'
+import { usernameRegex, emailRegex, passwordRegex } from '@/utils'
+import { usersRessource } from '@/ressources'
 
 class UsersService {
   private users = prisma.users
-  private saltRounds = Bun.env.SALT_ROUNDS
+  private saltRounds = env.SALT_ROUNDS
 
   public getAll = async (
     filters: Record<string, string>,
@@ -16,7 +19,7 @@ class UsersService {
   ) => {
     const { username, email, role } = filters
 
-    return await this.users.findMany({
+    const users = await this.users.findMany({
       where: {
         AND: [
           username ? { username: { contains: username } } : {},
@@ -31,6 +34,8 @@ class UsersService {
       orderBy: [{ [orderBy ?? 'created_at']: order ?? 'desc' }],
       take: limit ?? undefined,
     })
+
+    return this.manyRessource(users)
   }
 
   public count = async (filters: Record<string, string>, trash?: boolean) => {
@@ -57,37 +62,61 @@ class UsersService {
 
     if (!user) throw new HTTPException(404, { message: 'User not found' })
 
+    return this.ressource(user)
+  }
+
+  public getByEmail = async (email: string) => {
+    if (!email) throw new HTTPException(400, { message: 'Email is required' })
+
+    this.validateEmail(email)
+
+    const user = await this.users.findUnique({ where: { email: email } })
+
+    if (!user) throw new HTTPException(404, { message: 'User not found' })
+
     return user
   }
 
   public create = async (data: any) => {
-    if (!data.password)
-      throw new HTTPException(400, { message: 'Password is required' })
+    const { username, email, password } = data
+    if (!username || !email || !password)
+      throw new HTTPException(400, {
+        message: 'Username, email and password are required',
+      })
 
-    if (!data.email || !data.username)
-      throw new HTTPException(400, { message: 'Email or username is required' })
+    this.validateUsername(username)
+    this.validateEmail(email)
+    this.validatePassword(password)
 
-    data.password = await this.hashPassword(data.password)
     data.email = this.formatEmail(data.email)
+    data.password = await this.hashPassword(data.password)
 
     const user = await this.users.create({ data })
 
     if (!user)
       throw new HTTPException(500, { message: 'Failed to create user' })
 
-    return user
+    return this.ressource(user)
   }
 
   public update = async (id: number, data: any) => {
-    if (data.password) data.password = await this.hashPassword(data.password)
-    if (data.email) data.email = this.formatEmail(data.email)
+    const { username, email, password } = data
+    if (!id) throw new HTTPException(400, { message: 'ID is required' })
+
+    if (username) this.validateUsername(username)
+
+    if (email) this.validateEmail(email)
+
+    if (password) this.validatePassword(password)
+
+    if (email) data.email = this.formatEmail(data.email)
 
     const user = await this.users.update({ where: { id }, data })
 
     if (!user)
       throw new HTTPException(500, { message: 'Failed to update user' })
 
-    return user
+    return this.ressource(user)
   }
 
   public destroy = async (id: number) => {
@@ -98,7 +127,25 @@ class UsersService {
     if (!user)
       throw new HTTPException(500, { message: 'Failed to delete user' })
 
-    return user
+    return this.ressource(user)
+  }
+
+  public updateTokenExpiration = async (email: string) => {
+    const user = await this.getByEmail(email)
+
+    if (!user) throw new HTTPException(404, { message: 'User not found' })
+
+    const updatedUser = await this.users.update({
+      where: { id: user.id },
+      data: { token_created_at: new Date() },
+    })
+
+    if (!updatedUser)
+      throw new HTTPException(500, {
+        message: 'Failed to update token expiration',
+      })
+
+    return this.ressource(updatedUser)
   }
 
   private hashPassword = async (password: string) => {
@@ -115,8 +162,34 @@ class UsersService {
     }
   }
 
+  private manyRessource = (users: any) => {
+    return users.map((user: any) => usersRessource(user))
+  }
+
+  private ressource = (user: any) => {
+    return usersRessource(user)
+  }
+
   private formatEmail = (str: string) => {
     return str.toLowerCase()
+  }
+
+  private validateUsername = (username: string) => {
+    if (!usernameRegex.test(username))
+      throw new HTTPException(400, { message: 'Invalid username' })
+  }
+
+  private validateEmail = (email: string) => {
+    if (!emailRegex.test(email))
+      throw new HTTPException(400, { message: 'Invalid email' })
+  }
+
+  private validatePassword = (password: string) => {
+    if (!passwordRegex.test(password))
+      throw new HTTPException(400, {
+        message:
+          'Invalid password: It must contain at least 6 characters, including at least 1 letter, 1 uppercase letter and 1 number',
+      })
   }
 }
 
