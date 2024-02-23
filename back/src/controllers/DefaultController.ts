@@ -3,7 +3,6 @@ import { Hono } from 'hono'
 import Paginator from '@/components/Paginator'
 import { adminGuard } from '@/middlewares'
 import { HTTPException } from 'hono/http-exception'
-import { User } from '@/types'
 
 class DefaultController {
   protected basePath: string = '/'
@@ -65,7 +64,7 @@ class DefaultController {
   }
 
   public update = async () => {
-    return this.routes.patch('/:id', async c => {
+    return this.routes.put('/:id', async c => {
       const { id } = c.req.param()
       const body = await c.req.json()
 
