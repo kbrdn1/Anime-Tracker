@@ -2,9 +2,11 @@
 import { Hono } from 'hono'
 import { authService } from '@/services'
 import User from '@/types/User.js'
+import { JWTregex } from '@/utils'
+import { HTTPException } from 'hono/http-exception'
 
 class AuthController {
-  routes = new Hono().basePath('/auth')
+  private routes = new Hono().basePath('/auth')
 
   public signIn = async () => {
     return this.routes.post('/signin', async c => {
@@ -26,13 +28,17 @@ class AuthController {
 
   public verify = async () => {
     return this.routes.get('/verify', async c => {
-      const token = c.req.header('Authorization')?.split('Bearer ')[1]
+      const token = c.req.header('Authorization')
 
-      if (!token) return c.json('No token provided', 401)
+      if (!token)
+        throw new HTTPException(401, { message: 'No token provided' })
 
-      await authService.verify(token)
+      if (!JWTregex.test(token))
+        throw new HTTPException(401, { message: 'Invalid token' })
 
-      return c.text('Token verified', 200)
+      await authService.verify(token.split('Bearer ')[1])
+
+      return c.text('Valid token', 200)
     })
   }
 
