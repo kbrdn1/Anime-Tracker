@@ -52,11 +52,11 @@ class AnimeTypesService {
   public get = async (id: number) => {
     if (!id) throw new HTTPException(400, { message: 'ID is required' })
 
-    const status = await this.animeTypes.findUnique({ where: { id } })
+    const animeType = await this.animeTypes.findUnique({ where: { id } })
 
-    if (!status) throw new HTTPException(404, { message: 'Status not found' })
+    if (!animeType) throw new HTTPException(404, { message: 'Anime type not found' })
 
-    return status
+    return animeType
   }
 
   public create = async (data: any) => {
@@ -67,12 +67,12 @@ class AnimeTypesService {
     if (data.description)
       data.description = this.formatDescription(data.description)
 
-    const status = await this.animeTypes.create({ data })
+    const animeType = await this.animeTypes.create({ data })
 
-    if (!status)
-      throw new HTTPException(500, { message: 'Failed to create status' })
+    if (!animeType)
+      throw new HTTPException(500, { message: 'Failed to create anime type' })
 
-    return status
+    return animeType
   }
 
   public update = async (id: number, data: any) => {
@@ -82,23 +82,23 @@ class AnimeTypesService {
     if (data.description)
       data.description = this.formatDescription(data.description)
 
-    const status = await this.animeTypes.update({ where: { id }, data })
+    const animeType = await this.animeTypes.update({ where: { id }, data })
 
-    if (!status)
-      throw new HTTPException(500, { message: 'Failed to update status' })
+    if (!animeType)
+      throw new HTTPException(500, { message: 'Failed to update anime type' })
 
-    return status
+    return animeType
   }
 
   public destroy = async (id: number) => {
     if (!id) throw new HTTPException(400, { message: 'ID is required' })
 
-    const status = await this.animeTypes.delete({ where: { id } })
+    const animeType = await this.animeTypes.delete({ where: { id } })
 
-    if (!status)
-      throw new HTTPException(500, { message: 'Failed to delete status' })
+    if (!animeType)
+      throw new HTTPException(500, { message: 'Failed to delete anime type' })
 
-    return status
+    return animeType
   }
 
   private formatName = (str: string) => {

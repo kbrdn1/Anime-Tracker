@@ -52,11 +52,11 @@ class StudiosService {
   public get = async (id: number) => {
     if (!id) throw new HTTPException(400, { message: 'ID is required' })
 
-    const status = await this.studios.findUnique({ where: { id } })
+    const studio = await this.studios.findUnique({ where: { id } })
 
-    if (!status) throw new HTTPException(404, { message: 'Status not found' })
+    if (!studio) throw new HTTPException(404, { message: 'Studio not found' })
 
-    return status
+    return studio
   }
 
   public create = async (data: any) => {
@@ -67,12 +67,12 @@ class StudiosService {
     if (data.description)
       data.description = this.formatDescription(data.description)
 
-    const status = await this.studios.create({ data })
+    const studio = await this.studios.create({ data })
 
-    if (!status)
-      throw new HTTPException(500, { message: 'Failed to create status' })
+    if (!studio)
+      throw new HTTPException(500, { message: 'Failed to create studio' })
 
-    return status
+    return studio
   }
 
   public update = async (id: number, data: any) => {
@@ -82,23 +82,23 @@ class StudiosService {
     if (data.description)
       data.description = this.formatDescription(data.description)
 
-    const status = await this.studios.update({ where: { id }, data })
+    const studio = await this.studios.update({ where: { id }, data })
 
-    if (!status)
-      throw new HTTPException(500, { message: 'Failed to update status' })
+    if (!studio)
+      throw new HTTPException(500, { message: 'Failed to update studio' })
 
-    return status
+    return studio
   }
 
   public destroy = async (id: number) => {
     if (!id) throw new HTTPException(400, { message: 'ID is required' })
 
-    const status = await this.studios.delete({ where: { id } })
+    const studio = await this.studios.delete({ where: { id } })
 
-    if (!status)
-      throw new HTTPException(500, { message: 'Failed to delete status' })
+    if (!studio)
+      throw new HTTPException(500, { message: 'Failed to delete studio' })
 
-    return status
+    return studio
   }
 
   private formatName = (str: string) => {
