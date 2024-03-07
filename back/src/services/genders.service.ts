@@ -1,4 +1,4 @@
-// Service for users - users.service.ts
+// Service for genders - genders.service.ts
 import { prisma } from '@/middlewares'
 import {
   capitalizeFirstLetter,
