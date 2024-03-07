@@ -154,6 +154,44 @@ const prisma = new PrismaClient().$extends({
         return updatedStatuses
       },
     },
+    studios: {
+      delete: async (params: any) => {
+        const studio = await prisma.studios.findUnique({
+          where: { id: params.where.id },
+        })
+
+        if (!studio)
+          throw new HTTPException(404, { message: 'Studio not found' })
+
+        const updatedStudio = await prisma.studios.update({
+          where: { id: params.where.id },
+          data: { deleted_at: new Date() },
+        })
+
+        if (!updatedStudio)
+          throw new HTTPException(500, { message: 'Failed to delete studio' })
+
+        return updatedStudio
+      },
+      deleteMany: async (params: any) => {
+        const studios = await prisma.studios.findMany({
+          where: { id: { in: params.where.id } },
+        })
+
+        if (!studios)
+          throw new HTTPException(404, { message: 'Studios not found' })
+
+        const updatedStudios = await prisma.studios.updateMany({
+          where: { id: { in: params.where.id } },
+          data: { deleted_at: new Date() },
+        })
+
+        if (!updatedStudios)
+          throw new HTTPException(500, { message: 'Failed to delete studios' })
+
+        return updatedStudios
+      },
+    },
   },
 })
 export default prisma

@@ -52,7 +52,7 @@ const seed = async () => {
   await users()
 }
 
-seed()
+await seed()
   .then(async () => {
     console.log('Database seeded')
     await prisma.$disconnect()
