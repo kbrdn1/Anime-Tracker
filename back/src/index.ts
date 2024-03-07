@@ -12,6 +12,7 @@ import {
   gendersController,
   statusesController,
   studiosController,
+  animeTypesController
 } from './controllers'
 
 const api = new Hono().basePath('/api/v1')
@@ -33,6 +34,7 @@ api.route('', authorsController.router())
 api.route('', gendersController.router())
 api.route('', statusesController.router())
 api.route('', studiosController.router())
+api.route('', animeTypesController.router())
 
 export default {
   port: env.PORT,
