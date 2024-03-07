@@ -192,6 +192,44 @@ const prisma = new PrismaClient().$extends({
         return updatedStudios
       },
     },
+    animeTypes: {
+      delete: async (params: any) => {
+        const animeType = await prisma.animeTypes.findUnique({
+          where: { id: params.where.id },
+        })
+
+        if (!animeType)
+          throw new HTTPException(404, { message: 'Anime type not found' })
+
+        const updatedAnimeType = await prisma.animeTypes.update({
+          where: { id: params.where.id },
+          data: { deleted_at: new Date() },
+        })
+
+        if (!updatedAnimeType)
+          throw new HTTPException(500, { message: 'Failed to delete anime type' })
+
+        return updatedAnimeType
+      },
+      deleteMany: async (params: any) => {
+        const animeTypes = await prisma.animeTypes.findMany({
+          where: { id: { in: params.where.id } },
+        })
+
+        if (!animeTypes)
+          throw new HTTPException(404, { message: 'Anime types not found' })
+
+        const updatedAnimeTypes = await prisma.animeTypes.updateMany({
+          where: { id: { in: params.where.id } },
+          data: { deleted_at: new Date() },
+        })
+
+        if (!updatedAnimeTypes)
+          throw new HTTPException(500, { message: 'Failed to delete anime types' })
+
+        return updatedAnimeTypes
+      },
+    },
   },
 })
 export default prisma
