@@ -6,6 +6,7 @@ import gendersController from './genders.controller'
 import statusesController from './statuses.controller'
 import studiosController from './studios.controller'
 import animeTypesController from './animetypes.controller'
+import themesController from './themes.controller'
 
 export {
   authController,
@@ -14,5 +15,6 @@ export {
   gendersController,
   statusesController,
   studiosController,
-  animeTypesController
+  animeTypesController,
+  themesController
 }
