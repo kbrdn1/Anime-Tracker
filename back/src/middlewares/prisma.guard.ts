@@ -230,6 +230,44 @@ const prisma = new PrismaClient().$extends({
         return updatedAnimeTypes
       },
     },
+    themes: {
+      delete: async (params: any) => {
+        const theme = await prisma.themes.findUnique({
+          where: { id: params.where.id },
+        })
+
+        if (!theme)
+          throw new HTTPException(404, { message: 'Theme not found' })
+
+        const updatedTheme = await prisma.themes.update({
+          where: { id: params.where.id },
+          data: { deleted_at: new Date() },
+        })
+
+        if (!updatedTheme)
+          throw new HTTPException(500, { message: 'Failed to delete theme' })
+
+        return updatedTheme
+      },
+      deleteMany: async (params: any) => {
+        const themes = await prisma.themes.findMany({
+          where: { id: { in: params.where.id } },
+        })
+
+        if (!themes)
+          throw new HTTPException(404, { message: 'Themes not found' })
+
+        const updatedThemes = await prisma.themes.updateMany({
+          where: { id: { in: params.where.id } },
+          data: { deleted_at: new Date() },
+        })
+
+        if (!updatedThemes)
+          throw new HTTPException(500, { message: 'Failed to delete themes' })
+
+        return updatedThemes
+      },
+    },
   },
 })
 export default prisma
