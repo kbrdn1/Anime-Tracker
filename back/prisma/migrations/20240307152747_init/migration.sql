@@ -201,6 +201,7 @@ CREATE TABLE `Animes` (
     `crunchyroll_ref` VARCHAR(191) NULL,
     `adn_ref` VARCHAR(191) NULL,
     `my_anime_list_ref` VARCHAR(191) NULL,
+    `deleted_at` DATETIME(3) NULL,
     `status_id` INTEGER NOT NULL,
 
     UNIQUE INDEX `Animes_status_id_key`(`status_id`),
@@ -210,11 +211,14 @@ CREATE TABLE `Animes` (
 -- CreateTable
 CREATE TABLE `Seasons` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `number` INTEGER NOT NULL,
     `title` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NOT NULL,
-    `puplished_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `japanese_title` VARCHAR(191) NULL,
+    `description` VARCHAR(191) NULL,
+    `deleted_at` DATETIME(3) NULL,
     `anime_id` INTEGER NOT NULL,
 
+    UNIQUE INDEX `Seasons_number_key`(`number`),
     UNIQUE INDEX `Seasons_anime_id_key`(`anime_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -222,12 +226,16 @@ CREATE TABLE `Seasons` (
 -- CreateTable
 CREATE TABLE `Episodes` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `number` INTEGER NOT NULL,
     `title` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NOT NULL,
-    `duration` INTEGER NOT NULL,
-    `puplish_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `japanese_title` VARCHAR(191) NULL,
+    `description` VARCHAR(191) NULL,
+    `duration` INTEGER NULL,
+    `published_at` DATETIME(3) NOT NULL,
+    `deleted_at` DATETIME(3) NULL,
     `season_id` INTEGER NOT NULL,
 
+    UNIQUE INDEX `Episodes_number_key`(`number`),
     UNIQUE INDEX `Episodes_season_id_key`(`season_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -236,7 +244,7 @@ CREATE TABLE `Episodes` (
 CREATE TABLE `Themes` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NOT NULL,
+    `description` VARCHAR(191) NULL,
     `deleted_at` DATETIME(3) NULL,
 
     PRIMARY KEY (`id`)
@@ -255,7 +263,7 @@ CREATE TABLE `ThemesOnAnimes` (
 CREATE TABLE `AnimeTypes` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NOT NULL,
+    `description` VARCHAR(191) NULL,
     `deleted_at` DATETIME(3) NULL,
 
     PRIMARY KEY (`id`)
@@ -274,7 +282,7 @@ CREATE TABLE `AnimeTypesOnAnimes` (
 CREATE TABLE `Statuses` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NOT NULL,
+    `description` VARCHAR(191) NULL,
     `deleted_at` DATETIME(3) NULL,
 
     PRIMARY KEY (`id`)
@@ -303,7 +311,7 @@ CREATE TABLE `GendersOnAnimes` (
 CREATE TABLE `Studios` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NOT NULL,
+    `description` VARCHAR(191) NULL,
     `deleted_at` DATETIME(3) NULL,
 
     PRIMARY KEY (`id`)
