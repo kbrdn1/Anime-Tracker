@@ -1,4 +1,4 @@
-// Service for users - users.service.ts
+// Service for statuses - statuses.service.ts
 import { prisma } from '@/middlewares'
 import { HTTPException } from 'hono/http-exception'
 import {

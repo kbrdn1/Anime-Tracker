@@ -229,6 +229,7 @@ model Themes {
   id          Int              @id @default(autoincrement())
   name        String
   description String
+  deleted_at  DateTime?
   animes      ThemesOnAnimes[]
 }
 
@@ -246,6 +247,7 @@ model AnimeTypes {
   id          Int                  @id @default(autoincrement())
   name        String
   description String
+  deleted_at  DateTime?
   animes      AnimeTypesOnAnimes[]
 }
 
@@ -289,6 +291,7 @@ model Studios {
   id          Int               @id @default(autoincrement())
   name        String
   description String
+  deleted_at  DateTime?
   animes      StudiosOnAnimes[]
 }
 

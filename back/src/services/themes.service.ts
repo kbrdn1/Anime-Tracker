@@ -1,4 +1,4 @@
-// Service for genders - genders.service.ts
+// Service for themes - themes.service.ts
 import { prisma } from '@/middlewares'
 import {
   capitalizeFirstLetter,
@@ -6,8 +6,8 @@ import {
 } from '@/utils'
 import { HTTPException } from 'hono/http-exception'
 
-class GendersService {
-  private genders = prisma.genders
+class ThemesService {
+  private themes = prisma.themes
 
   public getAll = async (
     filters: Record<string, string>,
@@ -19,7 +19,7 @@ class GendersService {
   ) => {
     const { name } = filters
 
-    return await this.genders.findMany({
+    return await this.themes.findMany({
       where: {
         AND: [
           name ? { name: { contains: name } } : {},
@@ -37,7 +37,7 @@ class GendersService {
   public count = async (filters: Record<string, string>, trash?: boolean) => {
     const { name } = filters
 
-    return await this.genders.count({
+    return await this.themes.count({
       where: {
         AND: [
           name ? { name: { contains: name } } : {},
@@ -52,11 +52,11 @@ class GendersService {
   public get = async (id: number) => {
     if (!id) throw new HTTPException(400, { message: 'ID is required' })
 
-    const gender = await this.genders.findUnique({ where: { id } })
+    const theme = await this.themes.findUnique({ where: { id } })
 
-    if (!gender) throw new HTTPException(404, { message: 'Gender not found' })
+    if (!theme) throw new HTTPException(404, { message: 'Theme not found' })
 
-    return gender
+    return theme
   }
 
   public create = async (data: any) => {
@@ -67,7 +67,7 @@ class GendersService {
     if (data.description)
       data.description = this.formatDescription(data.description)
 
-    const gender = await this.genders.create({ data })
+    const gender = await this.themes.create({ data })
 
     if (!gender)
       throw new HTTPException(500, { message: 'Failed to create gender' })
@@ -82,23 +82,23 @@ class GendersService {
     if (data.description)
       data.description = this.formatDescription(data.description)
 
-    const gender = await this.genders.update({ where: { id }, data })
+    const theme = await this.themes.update({ where: { id }, data })
 
-    if (!gender)
-      throw new HTTPException(500, { message: 'Failed to update gender' })
+    if (!theme)
+      throw new HTTPException(500, { message: 'Failed to update theme' })
 
-    return gender
+    return theme
   }
 
   public destroy = async (id: number) => {
     if (!id) throw new HTTPException(400, { message: 'ID is required' })
 
-    const gender = await this.genders.delete({ where: { id } })
+    const theme = await this.themes.delete({ where: { id } })
 
-    if (!gender)
-      throw new HTTPException(500, { message: 'Failed to delete gender' })
+    if (!theme)
+      throw new HTTPException(500, { message: 'Failed to delete theme' })
 
-    return gender
+    return theme
   }
 
   private formatName = (str: string) => {
@@ -110,4 +110,4 @@ class GendersService {
   }
 }
 
-export default new GendersService()
+export default new ThemesService()

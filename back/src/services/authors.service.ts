@@ -1,4 +1,4 @@
-// Service for users - users.service.ts
+// Service for authors - authors.service.ts
 import { prisma } from '@/middlewares'
 import { HTTPException } from 'hono/http-exception'
 import { capitalizeFirstLetterAndLetterAfterEachHyphen } from '@/utils'

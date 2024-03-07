@@ -1,13 +1,13 @@
-// Service for genders - genders.service.ts
+// Service for studios - studios.service.ts
 import { prisma } from '@/middlewares'
+import { HTTPException } from 'hono/http-exception'
 import {
   capitalizeFirstLetter,
   capitalizeFirstLetterOfEachPhrase,
 } from '@/utils'
-import { HTTPException } from 'hono/http-exception'
 
-class GendersService {
-  private genders = prisma.genders
+class StudiosService {
+  private studios = prisma.studios
 
   public getAll = async (
     filters: Record<string, string>,
@@ -19,7 +19,7 @@ class GendersService {
   ) => {
     const { name } = filters
 
-    return await this.genders.findMany({
+    return await this.studios.findMany({
       where: {
         AND: [
           name ? { name: { contains: name } } : {},
@@ -37,7 +37,7 @@ class GendersService {
   public count = async (filters: Record<string, string>, trash?: boolean) => {
     const { name } = filters
 
-    return await this.genders.count({
+    return await this.studios.count({
       where: {
         AND: [
           name ? { name: { contains: name } } : {},
@@ -52,11 +52,11 @@ class GendersService {
   public get = async (id: number) => {
     if (!id) throw new HTTPException(400, { message: 'ID is required' })
 
-    const gender = await this.genders.findUnique({ where: { id } })
+    const studio = await this.studios.findUnique({ where: { id } })
 
-    if (!gender) throw new HTTPException(404, { message: 'Gender not found' })
+    if (!studio) throw new HTTPException(404, { message: 'Studio not found' })
 
-    return gender
+    return studio
   }
 
   public create = async (data: any) => {
@@ -67,12 +67,12 @@ class GendersService {
     if (data.description)
       data.description = this.formatDescription(data.description)
 
-    const gender = await this.genders.create({ data })
+    const studio = await this.studios.create({ data })
 
-    if (!gender)
-      throw new HTTPException(500, { message: 'Failed to create gender' })
+    if (!studio)
+      throw new HTTPException(500, { message: 'Failed to create studio' })
 
-    return gender
+    return studio
   }
 
   public update = async (id: number, data: any) => {
@@ -82,23 +82,23 @@ class GendersService {
     if (data.description)
       data.description = this.formatDescription(data.description)
 
-    const gender = await this.genders.update({ where: { id }, data })
+    const studio = await this.studios.update({ where: { id }, data })
 
-    if (!gender)
-      throw new HTTPException(500, { message: 'Failed to update gender' })
+    if (!studio)
+      throw new HTTPException(500, { message: 'Failed to update studio' })
 
-    return gender
+    return studio
   }
 
   public destroy = async (id: number) => {
     if (!id) throw new HTTPException(400, { message: 'ID is required' })
 
-    const gender = await this.genders.delete({ where: { id } })
+    const studio = await this.studios.delete({ where: { id } })
 
-    if (!gender)
-      throw new HTTPException(500, { message: 'Failed to delete gender' })
+    if (!studio)
+      throw new HTTPException(500, { message: 'Failed to delete studio' })
 
-    return gender
+    return studio
   }
 
   private formatName = (str: string) => {
@@ -110,4 +110,4 @@ class GendersService {
   }
 }
 
-export default new GendersService()
+export default new StudiosService()

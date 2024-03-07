@@ -4,6 +4,9 @@ import usersService from './users.service'
 import authorsService from './authors.service'
 import gendersService from './genders.service'
 import statusesService from './statuses.service'
+import studiosService from './studios.service'
+import animeTypesService from './animeTypes.service'
+import themesService from './themes.service'
 
 export {
   authService,
@@ -11,4 +14,7 @@ export {
   authorsService,
   gendersService,
   statusesService,
+  studiosService,
+  animeTypesService,
+  themesService
 }

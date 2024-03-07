@@ -1,13 +1,13 @@
-// Service for genders - genders.service.ts
+// Service for anime types - animeTypes.service.ts
 import { prisma } from '@/middlewares'
+import { HTTPException } from 'hono/http-exception'
 import {
   capitalizeFirstLetter,
   capitalizeFirstLetterOfEachPhrase,
 } from '@/utils'
-import { HTTPException } from 'hono/http-exception'
 
-class GendersService {
-  private genders = prisma.genders
+class AnimeTypesService {
+  private animeTypes = prisma.animeTypes
 
   public getAll = async (
     filters: Record<string, string>,
@@ -19,7 +19,7 @@ class GendersService {
   ) => {
     const { name } = filters
 
-    return await this.genders.findMany({
+    return await this.animeTypes.findMany({
       where: {
         AND: [
           name ? { name: { contains: name } } : {},
@@ -37,7 +37,7 @@ class GendersService {
   public count = async (filters: Record<string, string>, trash?: boolean) => {
     const { name } = filters
 
-    return await this.genders.count({
+    return await this.animeTypes.count({
       where: {
         AND: [
           name ? { name: { contains: name } } : {},
@@ -52,11 +52,11 @@ class GendersService {
   public get = async (id: number) => {
     if (!id) throw new HTTPException(400, { message: 'ID is required' })
 
-    const gender = await this.genders.findUnique({ where: { id } })
+    const animeType = await this.animeTypes.findUnique({ where: { id } })
 
-    if (!gender) throw new HTTPException(404, { message: 'Gender not found' })
+    if (!animeType) throw new HTTPException(404, { message: 'Anime type not found' })
 
-    return gender
+    return animeType
   }
 
   public create = async (data: any) => {
@@ -67,12 +67,12 @@ class GendersService {
     if (data.description)
       data.description = this.formatDescription(data.description)
 
-    const gender = await this.genders.create({ data })
+    const animeType = await this.animeTypes.create({ data })
 
-    if (!gender)
-      throw new HTTPException(500, { message: 'Failed to create gender' })
+    if (!animeType)
+      throw new HTTPException(500, { message: 'Failed to create anime type' })
 
-    return gender
+    return animeType
   }
 
   public update = async (id: number, data: any) => {
@@ -82,23 +82,23 @@ class GendersService {
     if (data.description)
       data.description = this.formatDescription(data.description)
 
-    const gender = await this.genders.update({ where: { id }, data })
+    const animeType = await this.animeTypes.update({ where: { id }, data })
 
-    if (!gender)
-      throw new HTTPException(500, { message: 'Failed to update gender' })
+    if (!animeType)
+      throw new HTTPException(500, { message: 'Failed to update anime type' })
 
-    return gender
+    return animeType
   }
 
   public destroy = async (id: number) => {
     if (!id) throw new HTTPException(400, { message: 'ID is required' })
 
-    const gender = await this.genders.delete({ where: { id } })
+    const animeType = await this.animeTypes.delete({ where: { id } })
 
-    if (!gender)
-      throw new HTTPException(500, { message: 'Failed to delete gender' })
+    if (!animeType)
+      throw new HTTPException(500, { message: 'Failed to delete anime type' })
 
-    return gender
+    return animeType
   }
 
   private formatName = (str: string) => {
@@ -110,4 +110,4 @@ class GendersService {
   }
 }
 
-export default new GendersService()
+export default new AnimeTypesService()

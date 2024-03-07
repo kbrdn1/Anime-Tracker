@@ -1,4 +1,4 @@
-// Controller for authors - authors.controller.ts
+// Controller for statuses - statuses.controller.ts
 import DefaultController from './DefaultController'
 import { statusesService } from '@/services'
 

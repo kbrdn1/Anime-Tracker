@@ -154,6 +154,120 @@ const prisma = new PrismaClient().$extends({
         return updatedStatuses
       },
     },
+    studios: {
+      delete: async (params: any) => {
+        const studio = await prisma.studios.findUnique({
+          where: { id: params.where.id },
+        })
+
+        if (!studio)
+          throw new HTTPException(404, { message: 'Studio not found' })
+
+        const updatedStudio = await prisma.studios.update({
+          where: { id: params.where.id },
+          data: { deleted_at: new Date() },
+        })
+
+        if (!updatedStudio)
+          throw new HTTPException(500, { message: 'Failed to delete studio' })
+
+        return updatedStudio
+      },
+      deleteMany: async (params: any) => {
+        const studios = await prisma.studios.findMany({
+          where: { id: { in: params.where.id } },
+        })
+
+        if (!studios)
+          throw new HTTPException(404, { message: 'Studios not found' })
+
+        const updatedStudios = await prisma.studios.updateMany({
+          where: { id: { in: params.where.id } },
+          data: { deleted_at: new Date() },
+        })
+
+        if (!updatedStudios)
+          throw new HTTPException(500, { message: 'Failed to delete studios' })
+
+        return updatedStudios
+      },
+    },
+    animeTypes: {
+      delete: async (params: any) => {
+        const animeType = await prisma.animeTypes.findUnique({
+          where: { id: params.where.id },
+        })
+
+        if (!animeType)
+          throw new HTTPException(404, { message: 'Anime type not found' })
+
+        const updatedAnimeType = await prisma.animeTypes.update({
+          where: { id: params.where.id },
+          data: { deleted_at: new Date() },
+        })
+
+        if (!updatedAnimeType)
+          throw new HTTPException(500, { message: 'Failed to delete anime type' })
+
+        return updatedAnimeType
+      },
+      deleteMany: async (params: any) => {
+        const animeTypes = await prisma.animeTypes.findMany({
+          where: { id: { in: params.where.id } },
+        })
+
+        if (!animeTypes)
+          throw new HTTPException(404, { message: 'Anime types not found' })
+
+        const updatedAnimeTypes = await prisma.animeTypes.updateMany({
+          where: { id: { in: params.where.id } },
+          data: { deleted_at: new Date() },
+        })
+
+        if (!updatedAnimeTypes)
+          throw new HTTPException(500, { message: 'Failed to delete anime types' })
+
+        return updatedAnimeTypes
+      },
+    },
+    themes: {
+      delete: async (params: any) => {
+        const theme = await prisma.themes.findUnique({
+          where: { id: params.where.id },
+        })
+
+        if (!theme)
+          throw new HTTPException(404, { message: 'Theme not found' })
+
+        const updatedTheme = await prisma.themes.update({
+          where: { id: params.where.id },
+          data: { deleted_at: new Date() },
+        })
+
+        if (!updatedTheme)
+          throw new HTTPException(500, { message: 'Failed to delete theme' })
+
+        return updatedTheme
+      },
+      deleteMany: async (params: any) => {
+        const themes = await prisma.themes.findMany({
+          where: { id: { in: params.where.id } },
+        })
+
+        if (!themes)
+          throw new HTTPException(404, { message: 'Themes not found' })
+
+        const updatedThemes = await prisma.themes.updateMany({
+          where: { id: { in: params.where.id } },
+          data: { deleted_at: new Date() },
+        })
+
+        if (!updatedThemes)
+          throw new HTTPException(500, { message: 'Failed to delete themes' })
+
+        return updatedThemes
+      },
+    },
   },
 })
 export default prisma
