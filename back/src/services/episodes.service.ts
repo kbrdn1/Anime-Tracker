@@ -43,7 +43,7 @@ class EpisodesService {
         ],
       },
       skip: offset ?? undefined,
-      orderBy: [{ [orderBy ?? 'name']: order ?? 'desc' }],
+      orderBy: [{ [orderBy ?? 'created_at']: order ?? 'desc' }],
       take: limit ?? undefined,
     })
   }

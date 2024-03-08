@@ -33,7 +33,7 @@ class AuthorsService {
         ],
       },
       skip: offset ?? undefined,
-      orderBy: [{ [orderBy ?? 'lastname']: order ?? 'desc' }],
+      orderBy: [{ [orderBy ?? 'lastname']: order ?? 'asc' }],
       take: limit ?? undefined,
     })
   }

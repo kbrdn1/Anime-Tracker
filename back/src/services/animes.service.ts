@@ -90,7 +90,7 @@ class AnimesService {
         ],
       },
       skip: offset ?? undefined,
-      orderBy: [{ [orderBy ?? 'name']: order ?? 'desc' }],
+      orderBy: [{ [orderBy ?? 'name']: order ?? 'asc' }],
       take: limit ?? undefined,
     })
   }
