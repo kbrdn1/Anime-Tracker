@@ -194,6 +194,7 @@ model Animes {
   crunchyroll_ref   String?
   adn_ref           String?
   my_anime_list_ref String?
+  deleted_at        DateTime?
   seasons           Seasons[]
   themes            ThemesOnAnimes[]
   authors           AuthorsOnAnimes[]
@@ -205,30 +206,35 @@ model Animes {
 }
 
 model Seasons {
-  id           Int        @id @default(autoincrement())
-  title        String
-  description  String
-  puplished_at DateTime   @default(now())
-  Episodes     Episodes[]
-  animes       Animes     @relation(fields: [anime_id], references: [id])
-  anime_id     Int        @unique
+  id             Int        @id @default(autoincrement())
+  number         Int        @unique
+  title          String
+  japanese_title String?
+  description    String?
+  deleted_at     DateTime?
+  Episodes       Episodes[]
+  animes         Animes     @relation(fields: [anime_id], references: [id])
+  anime_id       Int        @unique
 }
 
 model Episodes {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String
-  duration    Int
-  puplish_at  DateTime @default(now())
-  watched     Watch[]
-  seasons     Seasons  @relation(fields: [season_id], references: [id])
-  season_id   Int      @unique
+  id             Int       @id @default(autoincrement())
+  number         Int       @unique
+  title          String
+  japanese_title String?
+  description    String?
+  duration       Int?
+  published_at   DateTime
+  deleted_at     DateTime?
+  watched        Watch[]
+  seasons        Seasons   @relation(fields: [season_id], references: [id])
+  season_id      Int       @unique
 }
 
 model Themes {
   id          Int              @id @default(autoincrement())
   name        String
-  description String
+  description String?
   deleted_at  DateTime?
   animes      ThemesOnAnimes[]
 }
@@ -246,7 +252,7 @@ model ThemesOnAnimes {
 model AnimeTypes {
   id          Int                  @id @default(autoincrement())
   name        String
-  description String
+  description String?
   deleted_at  DateTime?
   animes      AnimeTypesOnAnimes[]
 }
@@ -264,7 +270,7 @@ model AnimeTypesOnAnimes {
 model Statuses {
   id          Int       @id @default(autoincrement())
   name        String
-  description String
+  description String?
   deleted_at  DateTime?
   animes      Animes[]
 }
@@ -290,7 +296,7 @@ model GendersOnAnimes {
 model Studios {
   id          Int               @id @default(autoincrement())
   name        String
-  description String
+  description String?
   deleted_at  DateTime?
   animes      StudiosOnAnimes[]
 }
