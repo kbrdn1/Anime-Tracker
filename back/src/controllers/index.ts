@@ -9,6 +9,7 @@ import animeTypesController from './animetypes.controller'
 import themesController from './themes.controller'
 import episodesController from './episodes.controller'
 import seasonsController from './seasons.controller'
+import animesController from './animes.controller'
 
 export {
   authController,
@@ -20,5 +21,6 @@ export {
   animeTypesController,
   themesController,
   episodesController,
-  seasonsController
+  seasonsController,
+  animesController
 }
