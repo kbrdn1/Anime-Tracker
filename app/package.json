@@ -12,12 +12,12 @@
     "format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\""
   },
   "dependencies": {
-    "lucide-react": "^0.335.0",
+    "lucide-react": "^0.350.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@pandacss/dev": "^0.32.0",
+    "@pandacss/dev": "^0.34.0",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
