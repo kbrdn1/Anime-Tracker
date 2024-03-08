@@ -136,12 +136,12 @@ class ThemesService {
   public destroy = async (id: number) => {
     if (!id) throw new HTTPException(400, { message: 'ID is required' })
 
-    const theme = await this.episodes.delete({ where: { id } })
+    const episode = await this.episodes.delete({ where: { id } })
 
-    if (!theme)
+    if (!episode)
       throw new HTTPException(500, { message: 'Failed to delete episode' })
 
-    return theme
+    return episode
   }
 
   private formatTitle = (str: string) => {
