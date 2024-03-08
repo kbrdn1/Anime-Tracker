@@ -13,3 +13,7 @@ export const emailRegex = RegExp(
 export const passwordRegex = RegExp(
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/
 )
+
+export const urlRegex = RegExp(
+  /^(http|https):\/\/[^ "]+$/
+)

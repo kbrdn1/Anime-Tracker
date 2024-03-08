@@ -188,9 +188,9 @@ model Animes {
   title             String
   japanese_title    String?
   description       String?
-  jacket_img        String?
+  cover_img         String?
   banner_img        String?
-  puplished_at      DateTime             @default(now())
+  trailer_url       String?
   crunchyroll_ref   String?
   adn_ref           String?
   my_anime_list_ref String?

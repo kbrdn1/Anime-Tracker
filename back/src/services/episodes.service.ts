@@ -6,7 +6,7 @@ import {
 } from '@/utils'
 import { HTTPException } from 'hono/http-exception'
 
-class ThemesService {
+class EpisodesService {
   private episodes = prisma.episodes
 
   public getAll = async (
@@ -43,7 +43,7 @@ class ThemesService {
         ],
       },
       skip: offset ?? undefined,
-      orderBy: [{ [orderBy ?? 'name']: order ?? 'desc' }],
+      orderBy: [{ [orderBy ?? 'created_at']: order ?? 'desc' }],
       take: limit ?? undefined,
     })
   }
@@ -153,4 +153,4 @@ class ThemesService {
   }
 }
 
-export default new ThemesService()
+export default new EpisodesService()

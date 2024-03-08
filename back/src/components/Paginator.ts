@@ -28,7 +28,7 @@ const Paginator = async (
     limit ? Number(limit) : 50,
     getOffset(currentPage, limit ? Number(limit) : 50),
     orderBy,
-    order ?? 'desc',
+    order,
     trash === 'true'
   )
 
