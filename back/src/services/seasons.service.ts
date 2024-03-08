@@ -1,4 +1,4 @@
-// Service for episodes - episodes.service.ts
+// Service for seasons - seasons.service.ts
 import { prisma } from '@/middlewares'
 import {
   capitalizeFirstLetter,
@@ -7,7 +7,7 @@ import {
 import { HTTPException } from 'hono/http-exception'
 
 class ThemesService {
-  private episodes = prisma.episodes
+  private seasons = prisma.seasons
 
   public getAll = async (
     filters: Record<string, string>,
@@ -19,7 +19,7 @@ class ThemesService {
   ) => {
     const { number, title, japanese_title, start_at, end_at } = filters
 
-    return await this.episodes.findMany({
+    return await this.seasons.findMany({
       where: {
         AND: [
           number ? { number: parseInt(number) } : {},
@@ -27,13 +27,17 @@ class ThemesService {
           japanese_title
             ? { japanese_title: { contains: japanese_title } }
             : {},
-          start_at ? { published_at: { gte: new Date(start_at) } } : {},
-          end_at ? { published_at: { lte: new Date(end_at) } } : {},
+          start_at ? { episodes: { every: { published_at: { gte: new Date(start_at) } } } } : {},
+          end_at ? { episodes: { every: { published_at: { lte: new Date(end_at) } } } } : {},
           start_at && end_at
             ? {
-                published_at: {
-                  gte: new Date(start_at),
-                  lte: new Date(end_at),
+                episodes: {
+                  every: {
+                    published_at: {
+                      gte: new Date(start_at),
+                      lte: new Date(end_at),
+                    },
+                  },
                 },
               }
             : {},
@@ -41,6 +45,7 @@ class ThemesService {
             ? { deleted_at: { not: null } }
             : { deleted_at: { equals: null } },
         ],
+
       },
       skip: offset ?? undefined,
       orderBy: [{ [orderBy ?? 'name']: order ?? 'desc' }],
@@ -51,7 +56,7 @@ class ThemesService {
   public count = async (filters: Record<string, string>, trash?: boolean) => {
     const { number, title, japanese_title, start_at, end_at } = filters
 
-    return await this.episodes.count({
+    return await this.seasons.count({
       where: {
         AND: [
           number ? { number: parseInt(number) } : {},
@@ -59,13 +64,17 @@ class ThemesService {
           japanese_title
             ? { japanese_title: { contains: japanese_title } }
             : {},
-          start_at ? { published_at: { gte: new Date(start_at) } } : {},
-          end_at ? { published_at: { lte: new Date(end_at) } } : {},
+          start_at ? { episodes: { every: { published_at: { gte: new Date(start_at) } } } } : {},
+          end_at ? { episodes: { every: { published_at: { lte: new Date(end_at) } } } } : {},
           start_at && end_at
             ? {
-                published_at: {
-                  gte: new Date(start_at),
-                  lte: new Date(end_at),
+                episodes: {
+                  every: {
+                    published_at: {
+                      gte: new Date(start_at),
+                      lte: new Date(end_at),
+                    },
+                  },
                 },
               }
             : {},
@@ -80,11 +89,11 @@ class ThemesService {
   public get = async (id: number) => {
     if (!id) throw new HTTPException(400, { message: 'ID is required' })
 
-    const episode = await this.episodes.findUnique({ where: { id } })
+    const season = await this.seasons.findUnique({ where: { id } })
 
-    if (!episode) throw new HTTPException(404, { message: 'Episode not found' })
+    if (!season) throw new HTTPException(404, { message: 'Season not found' })
 
-    return episode
+    return season
   }
 
   public create = async (data: any) => {
@@ -101,15 +110,13 @@ class ThemesService {
 
     if (data.description)
       data.description = this.formatDescription(data.description)
- 
-    if (data.published_at) data.published_at = new Date(data.published_at)
 
-    const episode = await this.episodes.create({ data })
+    const season = await this.seasons.create({ data })
 
-    if (!episode)
-      throw new HTTPException(500, { message: 'Failed to create episode' })
+    if (!season)
+      throw new HTTPException(500, { message: 'Failed to create season' })
 
-    return episode
+    return season
   }
 
   public update = async (id: number, data: any) => {
@@ -123,25 +130,23 @@ class ThemesService {
     if (data.description)
       data.description = this.formatDescription(data.description)
 
-    if (data.published_at) data.published_at = new Date(data.published_at)
+    const season = await this.seasons.update({ where: { id }, data })
 
-    const episode = await this.episodes.update({ where: { id }, data })
+    if (!season)
+      throw new HTTPException(500, { message: 'Failed to update season' })
 
-    if (!episode)
-      throw new HTTPException(500, { message: 'Failed to update episode' })
-
-    return episode
+    return season
   }
 
   public destroy = async (id: number) => {
     if (!id) throw new HTTPException(400, { message: 'ID is required' })
 
-    const episode = await this.episodes.delete({ where: { id } })
+    const season = await this.seasons.delete({ where: { id } })
 
-    if (!episode)
-      throw new HTTPException(500, { message: 'Failed to delete episode' })
+    if (!season)
+      throw new HTTPException(500, { message: 'Failed to delete season' })
 
-    return episode
+    return season
   }
 
   private formatTitle = (str: string) => {

@@ -306,6 +306,44 @@ const prisma = new PrismaClient().$extends({
         return updatedEpisodes
       },
     },
+    seasons: {
+      delete: async (params: any) => {
+        const season = await prisma.seasons.findUnique({
+          where: { id: params.where.id },
+        })
+
+        if (!season)
+          throw new HTTPException(404, { message: 'Season not found' })
+
+        const updatedSeason = await prisma.seasons.update({
+          where: { id: params.where.id },
+          data: { deleted_at: new Date() },
+        })
+
+        if (!updatedSeason)
+          throw new HTTPException(500, { message: 'Failed to delete season' })
+
+        return updatedSeason
+      },
+      deleteMany: async (params: any) => {
+        const seasons = await prisma.seasons.findMany({
+          where: { id: { in: params.where.id } },
+        })
+
+        if (!seasons)
+          throw new HTTPException(404, { message: 'Seasons not found' })
+
+        const updatedSeasons = await prisma.seasons.updateMany({
+          where: { id: { in: params.where.id } },
+          data: { deleted_at: new Date() },
+        })
+
+        if (!updatedSeasons)
+          throw new HTTPException(500, { message: 'Failed to delete seasons' })
+
+        return updatedSeasons
+      },
+    },
   },
 })
 export default prisma

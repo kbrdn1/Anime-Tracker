@@ -8,6 +8,7 @@ import studiosService from './studios.service'
 import animeTypesService from './animeTypes.service'
 import themesService from './themes.service'
 import episodesService from './episodes.service'
+import seasonsService from './seasons.service'
 
 export {
   authService,
@@ -18,5 +19,6 @@ export {
   studiosService,
   animeTypesService,
   themesService,
-  episodesService
+  episodesService,
+  seasonsService
 }
