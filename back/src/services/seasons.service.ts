@@ -6,7 +6,7 @@ import {
 } from '@/utils'
 import { HTTPException } from 'hono/http-exception'
 
-class ThemesService {
+class SeasonsService {
   private seasons = prisma.seasons
 
   public getAll = async (
@@ -158,4 +158,4 @@ class ThemesService {
   }
 }
 
-export default new ThemesService()
+export default new SeasonsService()
