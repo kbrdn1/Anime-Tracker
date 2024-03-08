@@ -344,6 +344,42 @@ const prisma = new PrismaClient().$extends({
         return updatedSeasons
       },
     },
+    animes: {
+      delete: async (params: any) => {
+        const anime = await prisma.animes.findUnique({
+          where: { id: params.where.id },
+        })
+
+        if (!anime) throw new HTTPException(404, { message: 'Anime not found' })
+
+        const updatedAnime = await prisma.animes.update({
+          where: { id: params.where.id },
+          data: { deleted_at: new Date() },
+        })
+
+        if (!updatedAnime)
+          throw new HTTPException(500, { message: 'Failed to delete anime' })
+
+        return updatedAnime
+      },
+      deleteMany: async (params: any) => {
+        const animes = await prisma.animes.findMany({
+          where: { id: { in: params.where.id } },
+        })
+
+        if (!animes) throw new HTTPException(404, { message: 'Animes not found' })
+
+        const updatedAnimes = await prisma.animes.updateMany({
+          where: { id: { in: params.where.id } },
+          data: { deleted_at: new Date() },
+        })
+
+        if (!updatedAnimes)
+          throw new HTTPException(500, { message: 'Failed to delete animes' })
+
+        return updatedAnimes
+      },
+    },
   },
 })
 export default prisma
