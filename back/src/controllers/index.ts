@@ -7,6 +7,8 @@ import statusesController from './statuses.controller'
 import studiosController from './studios.controller'
 import animeTypesController from './animetypes.controller'
 import themesController from './themes.controller'
+import episodesController from './episodes.controller'
+import seasonsController from './seasons.controller'
 
 export {
   authController,
@@ -16,5 +18,7 @@ export {
   statusesController,
   studiosController,
   animeTypesController,
-  themesController
+  themesController,
+  episodesController,
+  seasonsController
 }
